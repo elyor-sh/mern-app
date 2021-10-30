@@ -1,3 +1,5 @@
+import { AUTH_EDIT } from "./types";
+
 const initialState = {
     isAuthitenticated: false,
     token: '',
@@ -6,5 +8,13 @@ const initialState = {
 }
 
 export const authReducer = (state = initialState, action) => {
-    return state
+    switch (action.type) {
+        case AUTH_EDIT:
+            
+            return {...state, isAuthitenticated: action.payload};
+    
+        default:
+            return state;
+    }
+    
 }
