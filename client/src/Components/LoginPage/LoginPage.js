@@ -12,13 +12,16 @@ function LoginPage() {
         <div className={classes.loginPageContainer}>
             <form className={classes.loginPageWrapper} onSubmit={handleSubmit}>
                 <div className={classes.inputBox}>
-                   <TextField className={classes.input} id="name" name="name" label="Login" variant="standard" />
+                   <TextField className={classes.input} id="name" name="name" label="Name" variant="standard" />
+                </div>
+                <div className={classes.inputBox}>
+                   <TextField className={classes.input} id="email" type="email" name="email" label="Email" variant="standard" />
                 </div>
                 <div className={classes.inputBox}>
                    <TextField className={classes.input} id="password" name="password" label="Password" variant="standard" />
                 </div>
                 <div className={classes.btnBox}>
-                    <Button className={classes.btn} variant="contained" type="submit">Submit</Button>
+                    <Button className={classes.btn} variant="contained" type="submit">Login</Button>
                 </div>
             </form>
         </div>

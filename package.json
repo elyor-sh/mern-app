@@ -19,8 +19,10 @@
   "author": "Elyor Shodiyorov <elyor.sh.99@mail.ru",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "config": "^3.3.6",
     "express": "^4.17.1",
+    "express-validator": "^6.13.0",
     "mongodb": "^4.1.3",
     "mongoose": "^6.0.10"
   },
