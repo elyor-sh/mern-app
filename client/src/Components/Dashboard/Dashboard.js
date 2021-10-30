@@ -1,10 +1,11 @@
 import React from 'react'
+import AppBar from '../AppBar/AppBar'
 
 function Dashboard() {
     return (
-        <div>
-            Dashboard
-        </div>
+        <>
+            <AppBar />
+        </>
     )
 }
 

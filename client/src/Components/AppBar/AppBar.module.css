@@ -1,0 +1,26 @@
+.navBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    padding: 0px 30px;
+    background: #7b07c8;
+}
+
+.navBarList {
+    display: flex;
+}
+
+.navBarItem {
+    padding: 0px 15px;
+}
+
+.navBarItem:last-child {
+    padding-right: 0;
+}
+
+.navBarLink {
+    font-size: 20px;
+    color: #fff;
+    font-weight: 600;
+}
