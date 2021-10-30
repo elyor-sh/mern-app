@@ -30,3 +30,15 @@
 .input, .btn {
     width: 100%;
 }
+
+.row {
+    display: flex;
+    padding-top: 10px;
+    text-transform: uppercase;
+    justify-content: center;
+}
+
+.link {
+    padding-left: 5px;
+    text-decoration: underline;
+}
