@@ -1,10 +1,14 @@
 import React from 'react'
+import AppBar from '../AppBar/AppBar'
 
 function Files() {
     return (
-        <div>
-            Files
-        </div>
+        <>
+            <AppBar />
+            <div>
+                Files
+            </div>
+        </>
     )
 }
 
