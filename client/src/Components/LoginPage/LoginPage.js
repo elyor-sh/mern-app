@@ -2,8 +2,12 @@ import React from 'react'
 import classes from './LoginPage.module.css'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
+import {connect} from 'react-redux'
+import { editAuth } from '../../redux/actions'
 
-function LoginPage() {
+function LoginPage({isAuthitenticated, editAuth}) {
+
+    console.log(isAuthitenticated, editAuth);
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -32,4 +36,14 @@ function LoginPage() {
     )
 }
 
-export default LoginPage
+const mapStateToProps = state => {
+    return {
+        isAuthitenticated: state.auth.isAuthitenticated
+    }
+}
+
+const mapDispatchToProps = {
+    editAuth: editAuth
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)
