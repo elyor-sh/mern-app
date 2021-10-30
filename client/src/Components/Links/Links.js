@@ -4,10 +4,10 @@ import AppBar from '../AppBar/AppBar'
 function Links() {
     return (
         <>
-        <AppBar />
-        <div>
-            Links
-        </div>
+            <AppBar />
+            <div>
+                Links
+            </div>
         </>
     )
 }
