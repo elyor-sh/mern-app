@@ -1,7 +1,9 @@
 import {BrowserRouter as Router} from 'react-router-dom'
 import useRoutes from './Components/Routes/useRoutes';
-function App() {
-    const routes = useRoutes(false)
+import {connect} from 'react-redux'
+
+function App({isAuthitenticated}) {
+    const routes = useRoutes(isAuthitenticated)
   return (
     <>
       <Router>
@@ -11,4 +13,11 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+      isAuthitenticated: state.auth.isAuthitenticated
+  }
+}
+
+
+export default connect(mapStateToProps, null)(App);
