@@ -1,6 +1,7 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Dashboard from '../Dashboard/Dashboard'
+import EditLinkPage from '../EditPages/EditLinkPage/EditLinkPage'
 import Error from '../Error/Error'
 import Files from '../Files/Files'
 import Links from '../Links/Links'
@@ -23,6 +24,7 @@ function useRoutes(isAuthitenticated) {
         <Switch>
             <Route exact path="/" component={Dashboard} />
             <Route path="/links" component={Links} />
+            <Route path="/links/create" component={EditLinkPage} />
             <Route path="/files" component={Files} />
             <Route component={Error} />
         </Switch>
