@@ -2,6 +2,8 @@ import React, {useState} from 'react'
 import classes from './RegistrationPage.module.css'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
+import axios from 'axios'
+import { httpRegisterPost } from '../Api/utils/utils'
 
 function RegistrationPage() {
     const [value, setValue] = useState({
@@ -10,8 +12,21 @@ function RegistrationPage() {
         password: ''
     })
 
+    const handleChange = (e) => {
+        let val = e.target.value
+        let nam = e.target.name
+        setValue({...value, [nam]: val})
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault()
+        httpRegisterPost(value)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
     return (
         <>
@@ -24,6 +39,7 @@ function RegistrationPage() {
                             id="name" name="name"
                             label="Name"
                             variant="standard"
+                            onChange={handleChange}
                         />
                     </div>
                     <div className={classes.inputBox}>
@@ -32,6 +48,7 @@ function RegistrationPage() {
                             id="email" type="email"
                             name="email" label="Email"
                             variant="standard"
+                            onChange={handleChange}
                         />
                     </div>
                     <div className={classes.inputBox}>
@@ -40,7 +57,9 @@ function RegistrationPage() {
                             id="password"
                             name="password"
                             label="Password"
-                            variant="standard" />
+                            variant="standard" 
+                            onChange={handleChange}
+                            />
                     </div>
                     <div className={classes.btnBox}>
                         <Button

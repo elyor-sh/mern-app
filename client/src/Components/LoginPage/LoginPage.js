@@ -1,17 +1,23 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import classes from './LoginPage.module.css'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import {connect} from 'react-redux'
 import { editAuth } from '../../redux/actions'
+import axios from 'axios'
 
-function LoginPage({isAuthitenticated, editAuth}) {
+const http = 'http://localhost:5000'
 
-    console.log(isAuthitenticated, editAuth);
+function LoginPage({editAuth}) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        axios.post(`${http}/api/auth/register`)
     }
+
+    useEffect(() => {
+       localStorage.clear() 
+    }, [])
     return (
         <div className={classes.loginPageContainer}>
             <form className={classes.loginPageWrapper} onSubmit={handleSubmit}>
@@ -36,14 +42,8 @@ function LoginPage({isAuthitenticated, editAuth}) {
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        isAuthitenticated: state.auth.isAuthitenticated
-    }
-}
-
 const mapDispatchToProps = {
     editAuth: editAuth
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)
+export default connect(null, mapDispatchToProps)(LoginPage)
