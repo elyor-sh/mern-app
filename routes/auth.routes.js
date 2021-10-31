@@ -17,6 +17,8 @@ router.post(
     async (req, res) => {
     try {
 
+        console.log('Auth req',req);
+
         const errors = validationResult(req)
 
         if(!errors.isEmpty()){
@@ -57,7 +59,7 @@ router.post(
     ],
     async (req, res) => {
         try {
-
+            console.log('Auth req',req)
             const errors = validationResult(req)
     
             if(!errors.isEmpty()){

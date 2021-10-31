@@ -6,8 +6,9 @@ export const  httpReq = axios.create({
     mode: 'cors',
     headers: {
       'Accept': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json; charset=utf-8',
+      'Access-Control-Allow-Origin': 'http://localhost:3000',
+      'Access-Control-Allow-Credentials': 'true',
+      'Content-Type': 'application/json; charset=utf-8'
     },
     transformRequest: [
       (data) => {
@@ -22,6 +23,8 @@ export const  httpReq = axios.create({
     mode: 'cors',
     headers: {
       'Accept': 'application/json',
+      'Access-Control-Allow-Origin': 'http://localhost:3000',
+      'Access-Control-Allow-Credentials': 'true',
       'Content-Type': 'application/json; charset=utf-8',
     },
     transformRequest: [

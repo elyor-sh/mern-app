@@ -2,7 +2,6 @@ import React, {useState} from 'react'
 import classes from './RegistrationPage.module.css'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import axios from 'axios'
 import { httpRegisterPost } from '../Api/utils/utils'
 
 function RegistrationPage() {

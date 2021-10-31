@@ -1,8 +1,11 @@
 const  express = require('express')
 const  mongoose = require('mongoose')
 const  config =  require('config')
+const cors  = require('cors')
 
 const app = express()
+
+app.use(cors({origin: '*'}))
 
 app.use(express.json({extended: true}))
 
