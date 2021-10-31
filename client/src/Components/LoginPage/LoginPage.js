@@ -4,8 +4,7 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import { connect } from 'react-redux'
 import { editAuth } from '../../redux/actions'
-import { httpLoginPost } from '../Api/utils/utils'
-import { useHistory } from 'react-router'
+import AuthProvider from '../Api/Auth/AuthProvider'
 
 function LoginPage({ editAuth }) {
 
@@ -14,8 +13,6 @@ function LoginPage({ editAuth }) {
         email: '',
         password: ''
     })
-
-    const history = useHistory()
 
     const handleChange = (e) => {
         let val = e.target.value
@@ -26,20 +23,13 @@ function LoginPage({ editAuth }) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        httpLoginPost(value)
-            .then(res => {
-                console.log(res);
-                let currentUser = {
-                    userId: res.data.userId,
-                    userName: res.data.userName
-                }
-                localStorage.setItem('token', res.data.token)
-                localStorage.setItem('currentUser', JSON.stringify(currentUser))
+
+         AuthProvider.login(value)
+            .then(() => {
                 editAuth(true)
-                history.push('/')
             })
             .catch(err => {
-                console.log(err);
+                AuthProvider.checkError(err)
             })
     }
 
