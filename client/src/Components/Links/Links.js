@@ -4,6 +4,7 @@ import classes from './Links.module.css'
 import Button from '@mui/material/Button'
 import AppTable from '../Organizms/AppTable/AppTable'
 import { httpLinksGet } from '../Api/utils/utils'
+import AuthProvider from '../Api/Auth/AuthProvider'
 
 function Links() {
     const [items, setItems] = useState([])
@@ -17,6 +18,7 @@ function Links() {
             })
             .catch(err => {
                 console.log(err)
+                AuthProvider.checkError(err)
             })
 
     }, [])
