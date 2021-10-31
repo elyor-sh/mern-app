@@ -23,9 +23,9 @@ function useRoutes(isAuthitenticated) {
     return (
         <Switch>
             <Route exact path="/" component={Dashboard} />
-            <Route path="/links" component={Links} />
-            <Route path="/links/create" component={EditLinkPage} />
-            <Route path="/files" component={Files} />
+            <Route exact path="/links" component={Links} />
+            <Route exact path="/links/create" component={EditLinkPage} />
+            <Route exact path="/files" component={Files} />
             <Route component={Error} />
         </Switch>
     )

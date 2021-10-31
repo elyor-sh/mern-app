@@ -1,8 +1,9 @@
 const {Router}  = require('express')
 const router = Router()
 const Link = require('../models/Link')
+const authMiddleware = require('../middlewaree/authMiddleware')
 
-router.post('/create', async (req, res) => {
+router.post('/create', authMiddleware, async (req, res) => {
 
     const {link, date} = req.body
 
@@ -20,19 +21,19 @@ router.post('/create', async (req, res) => {
 
 })
 
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {
 
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', authMiddleware,  async (req, res) => {
 
 })
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', authMiddleware, async (req, res) => {
 
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authMiddleware, async (req, res) => {
 
 })
 
