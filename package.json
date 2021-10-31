@@ -19,6 +19,7 @@
   "author": "Elyor Shodiyorov <elyor.sh.99@mail.ru",
   "license": "ISC",
   "dependencies": {
+    "@mui/icons-material": "^5.0.5",
     "axios": "^0.24.0",
     "bcryptjs": "^2.4.3",
     "config": "^3.3.6",

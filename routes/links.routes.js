@@ -23,6 +23,10 @@ router.post('/create', authMiddleware, async (req, res) => {
 
 router.get('/', authMiddleware, async (req, res) => {
 
+    const links = await Link.find()
+
+    res.status(200).json({items: links, message: 'success'})
+
 })
 
 router.get('/:id', authMiddleware,  async (req, res) => {
