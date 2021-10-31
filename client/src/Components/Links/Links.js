@@ -1,9 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AppBar from '../AppBar/AppBar'
 import classes from './Links.module.css'
 import Button from '@mui/material/Button'
+import AppTable from '../Organizms/AppTable/AppTable'
+import { httpLinksGet } from '../Api/utils/utils'
 
 function Links() {
+    const [items, setItems] = useState([])
+
+    useEffect(() => {
+
+        httpLinksGet()
+            .then(res => {
+                console.log(res)
+                setItems(res.data.items)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+    }, [])
     return (
         <>
             <AppBar />
@@ -16,6 +32,7 @@ function Links() {
                         Add Link
                     </Button>
                 </div>
+                <AppTable />
             </div>
         </>
     )
