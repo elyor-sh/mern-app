@@ -1,7 +1,7 @@
 import React from 'react'
 import AppBar from '../AppBar/AppBar'
 import AppTable from '../Organizms/AppTable/AppTable'
-import { httpLinksGet } from '../Api/utils/utils'
+import { httpLinkDelete, httpLinksGet } from '../Api/utils/utils'
 
 function Links() {
     
@@ -14,7 +14,7 @@ function Links() {
                     addBtnText = 'Add Link'
                     targetList = {{
                         get: httpLinksGet,
-                        delete: ''
+                        delete: httpLinkDelete
                     }}
                     tableHeadings = {[
                         {name: 'Link', color: '#000', align: 'left', width: '50%'},

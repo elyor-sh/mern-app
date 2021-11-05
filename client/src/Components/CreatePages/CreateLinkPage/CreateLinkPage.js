@@ -1,11 +1,14 @@
 import { Button, TextField } from '@mui/material'
 import React, { useState } from 'react'
+import { useHistory } from 'react-router'
+import AuthProvider from '../../Api/Auth/AuthProvider'
 import { httpLinkPost } from '../../Api/utils/utils'
 import AppBar from '../../AppBar/AppBar'
 import classes from './CreateLinkPage.module.css'
 
 function CreateLinkPage() {
     const [link, setLink] = useState('')
+    const history = useHistory()
 
     const handleChange = (e) => {
         setLink(e.target.value)
@@ -19,11 +22,11 @@ function CreateLinkPage() {
             date: now
         }
         httpLinkPost(params)
-            .then(res => {
-                console.log(res)
+            .then(() => {
+                history.go(-1)
             })
             .catch(e => {
-                console.log(e)
+                AuthProvider.checkError(e)
             })
     }
 
