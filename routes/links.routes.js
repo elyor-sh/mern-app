@@ -56,15 +56,15 @@ router.get('/:id', authMiddleware, async (req, res) => {
     }
 })
 
-router.put('/:id', authMiddleware, async (req, res) => {
+router.put('/', authMiddleware, async (req, res) => {
     try {
         const link = req.body
-
-        if (!link._id) {
+        console.log(link)
+        if (!link.id) {
             res.status(400).json({ message: 'Id is not specified!' })
         }
 
-        const updatedLink = await Link.findByIdAndUpdate(post._id, post, { new: true })
+        const updatedLink = await Link.findByIdAndUpdate(link.id, link, { new: true })
 
         return res.json({ items: updatedLink, message: 'Success' })
 
