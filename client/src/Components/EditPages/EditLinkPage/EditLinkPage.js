@@ -2,23 +2,52 @@ import { Button, TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import AuthProvider from '../../Api/Auth/AuthProvider'
-import { httpLinksGetById } from '../../Api/utils/utils'
+import { httpLinkPut, httpLinksGetById } from '../../Api/utils/utils'
 import AppBar from '../../AppBar/AppBar'
 import classes from './EditLinkPage.module.css'
 
 function EditLinkPage() {
     const [link, setLink] = useState('')
+    const [id, setId] = useState('')
 
     const history = useHistory()
 
-    useEffect(() => {
-        httpLinksGetById(history.location.pathname)
+    const handleChange = (e) => {
+        setLink(e.target.value)
+    }
+
+    const handleClick = async () => {
+        let now = new Date()
+        const params = {
+            id: id,
+            link: link,
+            date: now
+        }
+        await httpLinkPut(params)
+            .then(res => {
+                console.log(res)
+            }).catch(err => {
+                AuthProvider.checkError(err)
+            })
+    }
+
+    const handleCancel = () => {
+        history.go(-1)
+    }
+
+    const getLinkById = async () => {
+        await httpLinksGetById(history.location.pathname)
             .then(res => {
                 setLink(res.data.items.link)
+                setId(res.data.items._id)
             })
             .catch(err => {
                 AuthProvider.checkError(err)
             })
+    }
+
+    useEffect(() => {
+        getLinkById()
     }, [history.location.pathname])
 
     return (
@@ -34,21 +63,22 @@ function EditLinkPage() {
                             label="Link"
                             variant="standard"
                             value={link}
-                        // onChange={handleChange}
+                            onChange={handleChange}
                         />
                     </div>
                     <div className={classes.btnBox}>
                         <Button
                             className={classes.btn}
                             variant="contained"
-                        // onClick={handleClick}
+                            style={{background: '#afa6a6'}}
+                            onClick={handleCancel}
                         >
                             Cancel
                         </Button>
                         <Button
                             className={classes.btn}
                             variant="contained"
-                        // onClick={handleClick}
+                            onClick={handleClick}
                         >
                             Save
                         </Button>

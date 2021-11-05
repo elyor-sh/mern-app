@@ -1,5 +1,5 @@
 import { Button, TextField } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { httpLinkPost } from '../../Api/utils/utils'
 import AppBar from '../../AppBar/AppBar'
 import classes from './CreateLinkPage.module.css'
@@ -27,9 +27,6 @@ function CreateLinkPage() {
             })
     }
 
-    useEffect(() => {
-       
-    }, [])
     return (
         <>
             <AppBar />

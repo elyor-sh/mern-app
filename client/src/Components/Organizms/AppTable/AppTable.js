@@ -89,7 +89,7 @@ function AppTable({
             <div className={classes.btnWrapper}>
                 <Button
                     variant="contained"
-                    href={basePath}
+                    href={`${basePath}/create`}
                 >
                     {addBtnText}
                 </Button>
