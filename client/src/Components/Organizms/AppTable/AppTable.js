@@ -12,7 +12,6 @@ import TableHead from '@mui/material/TableHead';
 import Paper from '@mui/material/Paper';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useHistory } from 'react-router';
 
 function AppTable({
@@ -44,9 +43,20 @@ function AppTable({
         )
     }
 
+    const deleteRow = (id) => {
+        if(targetList.delete){
+            targetList.delete(id)
+                .then(res => {
+                    getItems()
+                }).catch(err => {
+                    AuthProvider.checkError(err)
+                })
+        }
+    }
+
     const DeleteIcons = ({id}) => {
         return (
-            <Button>
+            <Button onClick={e => deleteRow(id)}>
                 <DeleteIcon />
             </Button>
         )

@@ -80,7 +80,7 @@ router.delete('/:id', authMiddleware, async (req, res) => {
 
     try{
 
-        const id = req.params
+        const {id} = req.params
 
         if(!id){
             return res.status(400).json({message: 'Id is not specified!'})
@@ -88,7 +88,7 @@ router.delete('/:id', authMiddleware, async (req, res) => {
 
         const deletedLink = await Link.findByIdAndDelete(id)
 
-        return res.status(200).json({message: 'succes', deletedLink})
+        return res.status(200).json({message: 'succes', deletedLink: deletedLink})
 
     }catch(e){
         res.status(500).json(e) 
