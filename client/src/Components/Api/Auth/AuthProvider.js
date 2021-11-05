@@ -12,7 +12,7 @@ const AuthProvider =  {
                         userId: jsonData.userId,
                         userName: jsonData.userName
                     }
-                    localStorage.setItem('currentUser', currentUser)
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser))
                     localStorage.setItem('token', jsonData.token)
                 })
                 .catch(err => {
@@ -24,6 +24,7 @@ const AuthProvider =  {
         console.log(error)
         if(error && error.status && error.status === 401){
             localStorage.clear()
+            window.location.assign('/login') 
         }
         return Promise.reject()
     }

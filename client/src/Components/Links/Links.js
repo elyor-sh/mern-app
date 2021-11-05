@@ -1,41 +1,33 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import AppBar from '../AppBar/AppBar'
-import classes from './Links.module.css'
-import Button from '@mui/material/Button'
 import AppTable from '../Organizms/AppTable/AppTable'
 import { httpLinksGet } from '../Api/utils/utils'
-import AuthProvider from '../Api/Auth/AuthProvider'
 
 function Links() {
-    const [items, setItems] = useState([])
+    
 
-    useEffect(() => {
-
-        httpLinksGet()
-            .then(res => {
-                console.log(res)
-                setItems(res.data.items)
-            })
-            .catch(err => {
-                console.log(err)
-                AuthProvider.checkError(err)
-            })
-
-    }, [])
     return (
         <>
             <AppBar />
-            <div className={classes.pageContainer}>
-                <div className={classes.btnWrapper}>
-                    <Button variant="contained"
-                        type="submit"
-                        href="/links/create"
-                    >
-                        Add Link
-                    </Button>
-                </div>
-                <AppTable />
-            </div>
+                <AppTable
+                    basePath = '/links/create'
+                    addBtnText = 'Add Link'
+                    targetList = {{
+                        get: httpLinksGet,
+                        delete: ''
+                    }}
+                    tableHeadings = {[
+                        {name: 'Link', color: '#000', align: 'left', width: '50%'},
+                        {name: 'Data', color: '#000', align: 'left', width: '30%'},
+                        {name: 'Actions', color: '#000', align: 'center', width: '20%'}
+                    ]}
+                    rowCells = {[
+                        {type: 'link', color: '#000', key: 'link', align: 'left'},
+                        {type: 'date', color: '#000', key: 'date', align: 'left'},
+                        {type: 'actions', color: '#000', key: 'date', align: 'center'},
+                    ]} 
+                    filters = {[]}
+                />
         </>
     )
 }
