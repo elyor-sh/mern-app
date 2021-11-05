@@ -1,11 +1,11 @@
-.editLinkPageContainer {
+.createLinkPageContainer {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.editLinkPageWrapper {
+.createLinkPageWrapper {
     width: 500px;
 }
 
@@ -15,12 +15,4 @@
 
 .input {
     width: 100%;
-}
-
-.btnBox {
-    display: flex;
-}
-
-.btn{
-    margin: 0px 5px !important;
 }
