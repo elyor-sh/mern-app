@@ -5,6 +5,7 @@ import Button from '@mui/material/Button'
 import { connect } from 'react-redux'
 import { editAuth } from '../../redux/actions'
 import AuthProvider from '../Api/Auth/AuthProvider'
+import { useHistory } from 'react-router'
 
 function LoginPage({ editAuth }) {
 
@@ -20,6 +21,8 @@ function LoginPage({ editAuth }) {
         setValue({...value, [nam]: val})
     }
 
+    const history = useHistory()
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -27,6 +30,7 @@ function LoginPage({ editAuth }) {
          AuthProvider.login(value)
             .then(() => {
                 editAuth(true)
+                history.push('/')
             })
             .catch(err => {
                 AuthProvider.checkError(err)
