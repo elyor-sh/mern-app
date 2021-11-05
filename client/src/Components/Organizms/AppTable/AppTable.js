@@ -12,6 +12,8 @@ import TableHead from '@mui/material/TableHead';
 import Paper from '@mui/material/Paper';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useHistory } from 'react-router';
 
 function AppTable({
     addBtnText,
@@ -22,6 +24,7 @@ function AppTable({
 }) {
 
     const [items, setItems] = useState([])
+    const history = useHistory()
 
     const getItems = () => {
         targetList.get()
@@ -33,15 +36,15 @@ function AppTable({
             })
     }
 
-    const EditIcons = (id) => {
+    const EditIcons = ({id}) => {
         return (
-            <Button>
+            <Button onClick={e => history.push(`${basePath}/${id}`)}>
                 <EditIcon />
             </Button>
         )
     }
 
-    const DeleteIcons = (id) => {
+    const DeleteIcons = ({id}) => {
         return (
             <Button>
                 <DeleteIcon />
@@ -68,8 +71,8 @@ function AppTable({
             case 'actions':
                 return (
                     <>
-                        <EditIcons id={row.id} />
-                        <DeleteIcons id={row} />
+                        <EditIcons id={row._id} />
+                        <DeleteIcons id={row._id} />
                     </>
                 )
             default:

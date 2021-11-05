@@ -16,3 +16,11 @@
 .input {
     width: 100%;
 }
+
+.btnBox {
+    display: flex;
+}
+
+.btn{
+    margin: 0px 5px !important;
+}

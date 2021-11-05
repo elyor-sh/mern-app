@@ -10,7 +10,7 @@ function Links() {
         <>
             <AppBar />
                 <AppTable
-                    basePath = '/links/create'
+                    basePath = '/links'
                     addBtnText = 'Add Link'
                     targetList = {{
                         get: httpLinksGet,
