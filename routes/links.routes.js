@@ -15,7 +15,7 @@ router.post('/create', authMiddleware, async (req, res) => {
             return res.status(400).json({ message: 'Link already exists' })
         }
 
-        const newLink = new Link({ link: link, date: date })
+        const newLink = new Link({ link: link, date: date, owner: req.user.userId })
 
         await newLink.save()
 
@@ -29,7 +29,9 @@ router.post('/create', authMiddleware, async (req, res) => {
 
 router.get('/', authMiddleware, async (req, res) => {
     try {
-        const links = await Link.find()
+        const links = await Link.find({owner: req.user.userId})
+
+        console.log(req)
 
         res.status(200).json({ items: links, message: 'Success' })
 

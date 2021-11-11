@@ -132,7 +132,7 @@ function AppTable({
                                             {rowCells.map(cell => {
                                                 return (
                                                     <TableCell
-                                                        style={{ color: cell.color}}
+                                                        style={{ color: cell.color,  whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}
                                                         align={cell.align}
                                                         key={row._id.toString() + Math.random() * 1000}
                                                     >

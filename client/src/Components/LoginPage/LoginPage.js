@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { editAuth } from '../../redux/actions'
 import AuthProvider from '../Api/Auth/AuthProvider'
 import { useHistory } from 'react-router'
+import {Link} from 'react-router-dom'
 
 function LoginPage({ editAuth }) {
 
@@ -45,7 +46,7 @@ function LoginPage({ editAuth }) {
             <form className={classes.loginPageWrapper} onSubmit={handleSubmit}>
                 <div className={classes.row}>
                     <p className={classes.title}>Sign in or </p>
-                    <a href="/register" className={classes.link}>register</a>
+                    <Link to="/register" className={classes.link}>register</Link>
                 </div>
                 <div className={classes.inputBox}>
                     <TextField

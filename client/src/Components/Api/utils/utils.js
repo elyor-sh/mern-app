@@ -1,6 +1,6 @@
-import { httpReq, httpReqAuth } from "../axios/axios";
+import { httpReq, httpReqAuth, httpReqUpload } from "../axios/axios";
 
-export const httpRegisterPost = (params) => httpReqAuth.post('/api/auth/register', params)
+export const httpRegisterPost = (data) => httpReqUpload('/api/auth/register', {data: data})
 
 export const httpLoginPost = (params) => httpReqAuth.post('/api/auth/login', params)
 

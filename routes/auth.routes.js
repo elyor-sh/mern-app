@@ -4,21 +4,21 @@ const jwt = require('jsonwebtoken')
 const config = require('config')
 const {check, validationResult} = require('express-validator')
 const User = require('../models/User')
+const uploadMiddleware = require('../middlewaree/uploadMiddleware')
 
 const router = Router()
 
 router.post(
     '/register',
+    uploadMiddleware.single('avatar'),
     [
         check('email', 'Incorrect email').isEmail(),
         check('password', 'Minimum password length 6 characters')
             .isLength({min: 6}),
     ],
     async (req, res) => {
+        console.log('auth params', req.body)
     try {
-
-        console.log('Auth req',req);
-
         const errors = validationResult(req)
 
         if(!errors.isEmpty()){
@@ -29,6 +29,7 @@ router.post(
         }
 
         const {name, email, password} = req.body
+        
 
         const candidate = await User.findOne({email})
 
@@ -38,7 +39,7 @@ router.post(
 
         const hashedPassword = await bcrypt.hash(password, 13)
         
-        const user = new User({name: name, email: email, password: hashedPassword})
+        const user = new User({name: name, email: email, password: hashedPassword, avatar: req.file.path})
 
         await user.save()
 
@@ -59,7 +60,6 @@ router.post(
     ],
     async (req, res) => {
         try {
-            console.log('Auth req',req)
             const errors = validationResult(req)
     
             if(!errors.isEmpty()){
