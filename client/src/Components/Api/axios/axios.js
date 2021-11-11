@@ -34,6 +34,19 @@ export const  httpReq = axios.create({
     ],
   });
 
+  export const httpReqUpload = axios.create({
+    baseURL: process.env.REACT_APP_DEV_API_URL,
+    timeout: 30000,
+    method: 'post',
+    mode: 'cors',
+    headers: {
+      // Authorization: `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'multipart/form-data',
+      'Language': 'ru',
+    },
+  });
+  
+
   httpReqAuth.interceptors.response.use(
     (response) => {
       return response;
@@ -73,5 +86,16 @@ export const  httpReq = axios.create({
     },
     async function (error) {
       return Promise.reject(error.response);
+    },
+  );
+
+  httpReqUpload.interceptors.request.use(
+    async (config) => {
+      const token = await localStorage.getItem('token');
+      config.headers['Authorization'] = 'Bearer ' + token;
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
     },
   );

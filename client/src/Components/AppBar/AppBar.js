@@ -1,19 +1,23 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Logo } from '../Logo/Logo'
 import classes from './AppBar.module.css'
 
 function AppBar() {
     return (
         <nav className={classes.navBar}>
-            <a href="/" className={classes.logoWrapper}>
+            <Link to="/" className={classes.logoWrapper}>
                 <Logo />
-            </a>
+            </Link>
             <ul className={classes.navBarList}>
                 <li className={classes.navBarItem}>
-                    <a href="/links" className={classes.navBarLink}>Links</a>
+                    <Link to="/links" className={classes.navBarLink}>Links</Link>
                 </li>
                 <li className={classes.navBarItem}>
-                    <a href="/files" className={classes.navBarLink}>Files</a>
+                    <Link to="/files" className={classes.navBarLink}>Files</Link>
+                </li>
+                <li className={classes.navBarItem}>
+                    <Link to="/about" className={classes.navBarLink}>About</Link>
                 </li>
             </ul>
         </nav>
