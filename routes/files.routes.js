@@ -5,8 +5,6 @@ const authMiddleware = require('../middlewaree/authMiddleware')
 const uploadMiddleware = require('../middlewaree/uploadMiddleware')
 
 router.post('/create', authMiddleware, uploadMiddleware.single('imageSrc'), async (req, res) => {
-
-    console.log(req.file)
     try {
         const file = new Files({
             imageSrc: req.file.path,

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Logo } from '../Logo/Logo'
+import Logout from '../Logout/Logout'
 import classes from './AppBar.module.css'
 
 function AppBar() {
@@ -18,6 +19,9 @@ function AppBar() {
                 </li>
                 <li className={classes.navBarItem}>
                     <Link to="/about" className={classes.navBarLink}>About</Link>
+                </li>
+                <li className={classes.navBarItem}>
+                    <Logout/>
                 </li>
             </ul>
         </nav>

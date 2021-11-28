@@ -27,7 +27,7 @@ const AuthProvider =  {
             window.location.assign('/login') 
         }
         return Promise.reject()
-    }
+    },
 }
 
 export default AuthProvider
