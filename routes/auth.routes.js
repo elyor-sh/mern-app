@@ -19,6 +19,7 @@ router.post(
     async (req, res) => {
         console.log('auth params', req.body)
     try {
+        console.log(req.file);
         const errors = validationResult(req)
 
         if(!errors.isEmpty()){
@@ -39,7 +40,7 @@ router.post(
 
         const hashedPassword = await bcrypt.hash(password, 13)
         
-        const user = new User({name: name, email: email, password: hashedPassword, avatar: req.file.path})
+        const user = new User({name: name, email: email, password: hashedPassword, avatar: req.file.filename})
 
         await user.save()
 
@@ -72,7 +73,6 @@ router.post(
             const {name, email, password} = req.body
 
             const user = await User.findOne({name, email})
-
             if(!user){
                 return res.status(400).json({message: 'User is not found'})
             }
@@ -89,7 +89,7 @@ router.post(
                 { expiresIn: '1h' }
             )
 
-            res.json({token, userId: user.id, userName: user.name})
+            res.json({token, userId: user.id, userName: user.name, avatar: user.avatar})
     
             
         } catch (error) {
