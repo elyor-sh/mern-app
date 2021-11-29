@@ -5,6 +5,7 @@ import {useEffect} from 'react'
 import { editAuth } from './redux/actions';
 
 function App({isAuthitenticated, editAuth}) {
+
   useEffect(() => {
    const token = localStorage.getItem('token')
    if(token){

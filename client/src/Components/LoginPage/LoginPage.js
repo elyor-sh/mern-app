@@ -38,9 +38,6 @@ function LoginPage({ editAuth }) {
             })
     }
 
-    useEffect(() => {
-        localStorage.clear()
-    }, [])
     return (
         <div className={classes.loginPageContainer}>
             <form className={classes.loginPageWrapper} onSubmit={handleSubmit}>

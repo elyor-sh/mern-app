@@ -24,6 +24,8 @@ function useRoutes(isAuthitenticated) {
 
     return (
         <Switch>
+            <Route path="/login" component={LoginPage} />
+            <Route path="/register" component={RegistrationPage} />
             <Route exact path="/" component={Dashboard} />
             <Route exact path="/links" component={Links} />
             <Route exact path="/links/create" component={CreateLinkPage} />
