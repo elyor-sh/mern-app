@@ -9,6 +9,7 @@
 
 .navBarList {
     display: flex;
+    align-items: center;
 }
 
 .navBarItem {
@@ -22,5 +23,11 @@
 .navBarLink {
     font-size: 20px;
     color: #fff;
+    font-weight: 600;
+}
+
+.logoWrapper {
+    color: #fff;
+    font-size: 18px;
     font-weight: 600;
 }
