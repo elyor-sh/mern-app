@@ -37,7 +37,7 @@ function EditFilePage() {
 
         if(routeParams.id === 'create'){
             await httpFilesPost(formData)
-                .then(res => { })
+                .then(res => { history.goBack() })
                 .catch(err => { AuthProvider.checkError(err) })
             
             return
@@ -46,7 +46,7 @@ function EditFilePage() {
         formData.append('id', idFile)
 
         await httpFilesPut(formData)
-            .then(() => { })
+            .then(() => { history.goBack() })
             .catch(err => { AuthProvider.checkError(err) })
     }
 
