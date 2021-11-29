@@ -1,7 +1,8 @@
 const {Schema, model, Types} = require('mongoose')
 
 const schema = new Schema ({
-    imageSrc: {type: String, required: true},
+    name: {type: String, required: true},
+    type: {type: String, required: true},
     owner: {type: Types.ObjectId, ref: 'User'}
 })
 
