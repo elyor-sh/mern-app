@@ -96,7 +96,7 @@ router.put('/', authMiddleware, async (req, res) => {
 
         file.mv(path)
 
-        const newFile = {...file, createdAt: fileBd.createdAt, updatedAt: Date.now()}
+        const newFile = {...file, name: fileBd.name, createdAt: fileBd.createdAt, updatedAt: Date.now()}
 
         const updatedFile = await Files.findByIdAndUpdate(id, newFile, { new: true })
 
