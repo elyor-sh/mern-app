@@ -45,6 +45,18 @@ export const  httpReq = axios.create({
       'Language': 'ru',
     },
   });
+
+  export const httpReqUpdate = axios.create({
+    baseURL: process.env.REACT_APP_DEV_API_URL,
+    timeout: 30000,
+    method: 'put',
+    mode: 'cors',
+    headers: {
+      // Authorization: `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'multipart/form-data',
+      'Language': 'ru',
+    },
+  });
   
 
   httpReqAuth.interceptors.response.use(
@@ -97,5 +109,33 @@ export const  httpReq = axios.create({
     },
     (error) => {
       return Promise.reject(error);
+    },
+  );
+  httpReqUpload.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    async function (error) {
+      return Promise.reject(error.response);
+    },
+  );
+
+  httpReqUpdate.interceptors.request.use(
+    async (config) => {
+      const token = await localStorage.getItem('token');
+      config.headers['Authorization'] = 'Bearer ' + token;
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    },
+  );
+  
+  httpReqUpdate.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    async function (error) {
+      return Promise.reject(error.response);
     },
   );

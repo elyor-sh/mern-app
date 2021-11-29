@@ -71,6 +71,45 @@ router.get('/:id', authMiddleware, async (req, res) => {
     }
 })
 
+router.put('/', authMiddleware, async (req, res) => {
+    try {
+        const file = req.files.file
+        const {id} = req.body
+        console.log('id::', id)
+        if (!id) {
+            res.status(400).json({ message: 'Id is not specified!' })
+        }
+
+        if(!file){
+            res.status(400).json({ message: 'Not file' })
+        }
+
+        const fileBd = await Files.findById(id)
+
+        if(!fileBd){
+            return  res.status(400).json({ message: "File doesn't exist!" })
+        }
+
+        const path = `${config.get('staticPath')}/${fileBd.name}.${fileBd.type}`
+
+        fs.unlinkSync(path);
+
+        file.mv(path)
+
+        const newFile = {...file, createdAt: fileBd.createdAt, updatedAt: Date.now()}
+
+        const updatedFile = await Files.findByIdAndUpdate(id, newFile, { new: true })
+
+        return res.status(200).json({ items: updatedFile, message: 'Success' })
+
+    } catch (e) {
+
+        res.status(500).json(e)
+
+    }
+
+})
+
 router.delete('/:id', authMiddleware, async (req, res) => {
 
     try{
