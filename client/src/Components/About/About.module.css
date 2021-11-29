@@ -1,0 +1,23 @@
+.container {
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+.warning {
+    color: #8b2727;
+    font-weight: 800;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.success {
+    font-size: 18px;
+    color: #00680e;
+    font-weight: 800;
+}
+
+.success a {
+    color: #4e3bfa;
+    font-weight: 900;
+    text-decoration: underline;
+}
