@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Logo } from '../Logo/Logo'
 import Logout from '../Logout/Logout'
+import Avatar from '../Avatar/Avatar'
 import classes from './AppBar.module.css'
 
 function AppBar() {
@@ -22,6 +23,9 @@ function AppBar() {
                 </li>
                 <li className={classes.navBarItem}>
                     <Logout/>
+                </li>
+                <li className={classes.navBarItem}>
+                    <Avatar/>
                 </li>
             </ul>
         </nav>

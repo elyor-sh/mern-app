@@ -10,7 +10,8 @@ const AuthProvider =  {
                 .then(jsonData => {
                     const currentUser = {
                         userId: jsonData.userId,
-                        userName: jsonData.userName
+                        userName: jsonData.userName,
+                        userAvatar: jsonData.avatar
                     }
                     localStorage.setItem('currentUser', JSON.stringify(currentUser))
                     localStorage.setItem('token', jsonData.token)
