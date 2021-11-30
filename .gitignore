@@ -16,7 +16,7 @@
 /uploads
 /avatars
 
-/config default.json
+/config
 
 # misc
 .DS_Store
