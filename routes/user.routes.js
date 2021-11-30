@@ -3,14 +3,111 @@ const { check, validationResult } = require('express-validator')
 const bcrypt = require('bcryptjs')
 const nodemailer = require('nodemailer')
 const config = require('config')
+const moment = require('moment')
+const fs = require('fs')
 const User = require('../models/User')
 const authMiddleware = require('../middlewaree/authMiddleware')
 
 const router = Router()
 
+// загружение аватара
+router.post(
+    '/avatar',
+    authMiddleware,
+    async (req, res) => {
+        try {
+
+            const file = req.files.avatar
+
+            if (!file) {
+                return res.status(400).json({ message: 'Avatar is not specified!' })
+            }
+
+            if(file){
+                if(!(file.mimetype === 'image/png' || file.mimetype === 'image/jpeg')){
+                    return  res.status(400).json({message: 'You can only upload a file with jpg and png extensions!'})
+                }
+            }
+
+            const user = await User.findById(req.user.userId)
+
+            if (!user) {
+                return res.status(404).json({ message: 'User not found!' })
+            }
+
+            const date = moment().format('DDMMYYYY-HHmmss_SSS')
+            const newFileName = date.toString()
+            const type = file.name.split('.').pop()
+    
+            const path = `${config.get('avatarPath')}/${newFileName}.${type}`
+
+            if (fs.existsSync(path)) {
+                return res.status(404).json({ message: 'There is no such file on the disk!' })
+            }
+
+            file.mv(path)
+
+            user.avatar = `${newFileName}.${type}`
+
+            user.save()
+
+            return res.status(200).json({ message: 'succes', user: user })
+
+        } catch (e) {
+            console.log(e);
+            res.status(500).json(e)
+        }
+    }
+)
+
+// изменение аватара
+router.put(
+    '/avatar',
+    authMiddleware,
+    async (req, res) => {
+        try {
+
+            const { id } = req.body
+
+            if (!id) {
+                return res.status(400).json({ message: 'Id is not specified!' })
+            }
+
+            const file = req.files.avatar
+
+            if (!file) {
+                return res.status(400).json({ message: 'Avatar is not specified!' })
+            }
+
+            const user = await User.findById(id)
+
+            if (!user) {
+                return res.status(404).json({ message: 'User not found!' })
+            }
+
+            const path = `${config.get('avatarPath')}/${user.avatar}`
+
+            if (!fs.existsSync(path)) {
+                return res.status(404).json({ message: 'There is no such file on the disk!' })
+            }
+
+            fs.unlinkSync(path);
+
+            file.mv(path)
+
+            return res.status(200).json({ message: 'succes', user: user })
+
+        } catch (e) {
+            console.log(e);
+            res.status(500).json(e)
+        }
+    }
+)
+
 // удаление аватара
 router.delete(
-    '/deleteAvatar/:id',
+    '/avatar/delete/:id',
+    authMiddleware,
     async (req, res) => {
         try {
 
@@ -22,7 +119,15 @@ router.delete(
 
             const user = await User.findById(id)
 
+            if (!user) {
+                return res.status(404).json({ message: 'User not found!' })
+            }
+
             const path = `${config.get('avatarPath')}/${user.avatar}`
+
+            if (!fs.existsSync(path)) {
+                return res.status(404).json({ message: 'There is no such file on the disk!' })
+            }
 
             fs.unlinkSync(path);
 
