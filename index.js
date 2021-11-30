@@ -11,6 +11,7 @@ app.use(cors({origin: '*'}))
 
 app.use(express.json({extended: true}))
 app.use(express.static('uploads'))
+app.use(express.static('avatars'))
 app.use(express.urlencoded({limit: '50mb', extended: true}))
 
 app.use('/api/auth', require('./routes/auth.routes'))
