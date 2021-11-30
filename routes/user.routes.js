@@ -1,12 +1,12 @@
 const { Router } = require('express')
 const { check, validationResult } = require('express-validator')
 const bcrypt = require('bcryptjs')
-const nodemailer = require('nodemailer')
 const config = require('config')
 const moment = require('moment')
 const fs = require('fs')
 const User = require('../models/User')
 const authMiddleware = require('../middlewaree/authMiddleware')
+const mailer = require('../nodemailer')
 
 const router = Router()
 
@@ -144,6 +144,59 @@ router.delete(
     }
 )
 
+// редактирование имя юзера
+router.put(
+    '/',
+    authMiddleware,
+    [
+        check('newEmail', 'Incorrect email').isEmail(),
+    ],
+    async (req, res) => {
+        try {
+            const errors = validationResult(req)
+
+            if (!errors.isEmpty()) {
+                return res.status(400).json({
+                    errors: errors.array(),
+                    message: 'Incorrect email'
+                })
+            }
+
+            const { id, oldEmail, newEmail, name } = req.body
+
+            if (!id) {
+                return res.status(400).json({ message: 'id is not specified!' })
+            }
+
+            if(name.length < 3){
+                return res.status(400).json({ message: 'Name must be at least 3 digits long!' })
+            }
+
+            const user = await User.findOne({ email: oldEmail, id: id })
+
+            if (!user) {
+                return res.status(404).json({ message: 'User not found!' })
+            }
+
+           user.name = name
+           user.email = newEmail
+
+            user.save()
+
+            const textForEmail = `Your email has been successfully updated. If it wasn't you, then please reset your email password !!!`
+
+            //отправка сообщений на почту
+            mailer(newEmail, 'Сhange Datas', textForEmail)
+
+            return res.status(200).json({ message: 'succes', user: user })
+
+        } catch (e) {
+            console.log(e);
+            res.status(500).json(e)
+        }
+    }
+)
+
 // редактирование пароля
 router.put(
     '/password',
@@ -193,29 +246,10 @@ router.put(
 
             user.save()
 
-            const transporter = nodemailer.createTransport({
-                service: 'gmail',
-                secure: false, 
-                port: 25,
-                auth: {
-                    user: config.get('userMail'),
-                    pass: config.get('passwordMail')
-                },
-                tls: {
-                    rejectUnauthorized: false
-                }
-            })
+            const textForEmail = `Your password has been successfully updated. If it wasn't you, then please reset your password !!!`
 
-            const mailOptions = {
-                from: config.get('userMail'),
-                to: email,
-                subject: 'Сhange Password',
-                text: `Your password has been successfully updated. If it wasn't you, then please reset your password !!!`
-            }
-
-            transporter.sendMail(mailOptions, (err, info) => {
-                console.log(err, info);
-            })
+            //отправка сообщений на почту
+            mailer(email, 'Сhange Password', textForEmail)
 
             return res.status(200).json({ message: 'succes', user: user })
 
