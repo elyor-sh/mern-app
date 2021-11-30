@@ -4,6 +4,4 @@
     "mongoUri": "mongodb+srv://elyor:1234qwer@cluster0.4mat0.mongodb.net/myWebSite?retryWrites=true&w=majority",
     "staticPath": "C:\\Users\\Elyor\\Desktop\\projects\\mern-app\\uploads",
     "avatarPath": "C:\\Users\\Elyor\\Desktop\\projects\\mern-app\\avatars",
-    "userMail": "robotnodejs2005@gmail.com",
-    "passwordMail": "nodejs2005"
 }
