@@ -19,6 +19,15 @@ router.post(
         console.log('auth params', req.body)
     try {
 
+        const errors = validationResult(req)
+
+        if(!errors.isEmpty()){
+            return res.status(400).json({
+                errors: errors.array(),
+                message: 'Incorrect registration data'
+            })
+        }
+
         const file = req.files.avatar
 
         const date = moment().format('DDMMYYYY-HHmmss_SSS')
@@ -33,15 +42,6 @@ router.post(
             if(!(file.mimetype === 'image/png' || file.mimetype === 'image/jpeg')){
                 return  res.status(400).json({message: 'You can only upload a file with jpg and png extensions!'})
             }
-        }
-
-        const errors = validationResult(req)
-
-        if(!errors.isEmpty()){
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Incorrect registration data'
-            })
         }
 
         const {name, email, password} = req.body
@@ -115,36 +115,5 @@ router.post(
             res.status(500).json({message: 'Server error, try again'})
         }
 })
-
-router.delete(
-    '/deleteAvatar/:id',
-
-    async (req, res) => {
-            try{
-        
-                const {id} = req.params
-        
-                if(!id){
-                    return res.status(400).json({message: 'Id is not specified!'})
-                }
-        
-                const user = await User.findById(id)
-        
-                const path = `${config.get('avatarPath')}/${user.avatar}`
-        
-                fs.unlinkSync(path);
-            
-                user.avatar = null
-
-                user.save()
-            
-                return res.status(200).json({message: 'succes', user: user})
-        
-            }catch(e){
-                console.log(e);
-                res.status(500).json(e) 
-            }
-    }
-)
 
 module.exports = router

@@ -14,6 +14,9 @@
 
 # static
 /uploads
+/avatars
+
+/config default.json
 
 # misc
 .DS_Store
