@@ -4,13 +4,12 @@ const jwt = require('jsonwebtoken')
 const config = require('config')
 const {check, validationResult} = require('express-validator')
 const User = require('../models/User')
-const uploadMiddleware = require('../middlewaree/uploadMiddleware')
+const moment = require('moment')
 
 const router = Router()
 
 router.post(
     '/register',
-    uploadMiddleware.single('avatar'),
     [
         check('email', 'Incorrect email').isEmail(),
         check('password', 'Minimum password length 6 characters')
@@ -19,7 +18,23 @@ router.post(
     async (req, res) => {
         console.log('auth params', req.body)
     try {
-        console.log(req.file);
+
+        const file = req.files.avatar
+
+        const date = moment().format('DDMMYYYY-HHmmss_SSS')
+        const newFileName = date.toString()
+        const type = file.name.split('.').pop()
+
+        console.log('files:::', file, 'type:::', type);
+
+        const path = `${config.get('avatarPath')}/${newFileName}.${type}`
+
+        if(file){
+            if(!(file.mimetype === 'image/png' || file.mimetype === 'image/jpeg')){
+                return  res.status(400).json({message: 'You can only upload a file with jpg and png extensions!'})
+            }
+        }
+
         const errors = validationResult(req)
 
         if(!errors.isEmpty()){
@@ -39,8 +54,12 @@ router.post(
         }
 
         const hashedPassword = await bcrypt.hash(password, 13)
+
+        if(file){
+            file.mv(path)
+        }
         
-        const user = new User({name: name, email: email, password: hashedPassword, avatar: req.file.filename})
+        const user = new User({name: name, email: email, password: hashedPassword, avatar: file ? `${newFileName}.${type}` : null})
 
         await user.save()
 
@@ -89,12 +108,43 @@ router.post(
                 { expiresIn: '1h' }
             )
 
-            res.json({token, userId: user.id, userName: user.name, avatar: user.avatar})
+            res.json({token, userId: user.id, userName: user.name, avatar: user.avatar, userEmail: user.email})
     
             
         } catch (error) {
             res.status(500).json({message: 'Server error, try again'})
         }
 })
+
+router.delete(
+    '/deleteAvatar/:id',
+
+    async (req, res) => {
+            try{
+        
+                const {id} = req.params
+        
+                if(!id){
+                    return res.status(400).json({message: 'Id is not specified!'})
+                }
+        
+                const user = await User.findById(id)
+        
+                const path = `${config.get('avatarPath')}/${user.avatar}`
+        
+                fs.unlinkSync(path);
+            
+                user.avatar = null
+
+                user.save()
+            
+                return res.status(200).json({message: 'succes', user: user})
+        
+            }catch(e){
+                console.log(e);
+                res.status(500).json(e) 
+            }
+    }
+)
 
 module.exports = router
