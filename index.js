@@ -17,6 +17,7 @@ app.use(express.urlencoded({limit: '50mb', extended: true}))
 app.use('/api/auth', require('./routes/auth.routes'))
 app.use('/api/links', require('./routes/links.routes'))
 app.use('/api/files', require('./routes/files.routes'))
+app.use('/api/user', require('./routes/user.routes'))
 
 const PORT = config.get('port') || 5000
 
