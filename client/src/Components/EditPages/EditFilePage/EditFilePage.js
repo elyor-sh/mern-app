@@ -16,7 +16,6 @@ function EditFilePage() {
     const getFile = async () => {
         await httpFilesGetById(routeParams.id)
             .then(res => {
-                console.log(res);
                 setIdFile(res.data.items._id)
             })
             .catch(err => {

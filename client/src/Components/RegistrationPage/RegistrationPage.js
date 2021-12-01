@@ -37,7 +37,6 @@ function RegistrationPage() {
        
         httpRegisterPost(formData)
             .then(res => {
-                console.log(res);
                 history.push('/login')
             })
             .catch(err => {

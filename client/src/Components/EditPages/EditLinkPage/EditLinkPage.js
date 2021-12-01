@@ -24,7 +24,6 @@ function EditLinkPage() {
         }
         await httpLinkPut(params)
             .then(res => {
-                console.log(res)
                 history.goBack()
             }).catch(err => {
                 AuthProvider.checkError(err)

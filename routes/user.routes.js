@@ -139,7 +139,7 @@ router.get(
 
 // удаление аватара
 router.delete(
-    '/avatar/delete/:id',
+    '/avatar/:id',
     authMiddleware,
     async (req, res) => {
         try {
