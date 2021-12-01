@@ -63,7 +63,6 @@ function AppTable({
     }
 
     const drawCell = (row, cell) => {
-        console.log(row, cell)
         switch (cell.type) {
             case 'text':
                 let cellText = row[cell.key]

@@ -39,7 +39,6 @@ function LoginPage({ editAuth, editUser }) {
 
                 }
                 editUser(currentUser)
-                console.log(res);
                 history.push('/')
             })
             .catch(err => {

@@ -3,7 +3,7 @@ import { Button, TextField } from '@mui/material'
 import { useHistory } from 'react-router'
 import { connect } from 'react-redux'
 import classes from './UserMenu.module.css'
-import { httpPostUserAvatar, httpPutUser, httpPutUserAvatar } from '../Api/utils/utils'
+import { httpDeleteUserAvatar, httpPostUserAvatar, httpPutUser, httpPutUserAvatar } from '../Api/utils/utils'
 import AuthProvider from '../Api/Auth/AuthProvider'
 import setLocalStorage from '../hooks/setLocalStorage'
 import { editUser } from '../../redux/actions'
@@ -70,13 +70,23 @@ function UserMenu({currentUser, editUser}) {
     const handleSave = async () => {
         await httpPutUser(user)
             .then(res => {
-                console.log(res);
                 if (avatar) {
                     editAvatar()
                 } else {
                     setLocalStorage(res.data.user)
                     userEditRedux(res.data.user)
                 }
+            }).catch(err => {
+                AuthProvider.checkError(err)
+            })
+    }
+
+    const deleteAvatar = async () => {
+        await httpDeleteUserAvatar(user.id)
+            .then(res => {
+                setLocalStorage(res.data.user)
+                userEditRedux(res.data.user)
+                setTypeRequest('post')
             }).catch(err => {
                 AuthProvider.checkError(err)
             })
@@ -90,6 +100,7 @@ function UserMenu({currentUser, editUser}) {
     return (
         <>
             <div className={classes.containerUserMenu}>
+                <div className={classes.title}>Edit datas:</div>
                 <div className={classes.inputWrapper}>
                     <TextField
                         className={classes.input}
@@ -131,6 +142,14 @@ function UserMenu({currentUser, editUser}) {
                         onClick={e => history.goBack()}
                     >
                         Cancel
+                    </Button>
+                    <Button
+                        className={classes.btn}
+                        variant="contained"
+                        style={{ background: '#e94200' }}
+                        onClick={deleteAvatar}
+                    >
+                        Delete Avatar
                     </Button>
                     <Button
                         className={classes.btn}
