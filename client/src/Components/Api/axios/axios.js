@@ -57,6 +57,20 @@ export const  httpReq = axios.create({
       'Language': 'ru',
     },
   });
+
+  export const httpReqDownloadFiles = axios.create({
+    baseURL: process.env.REACT_APP_DEV_API_URL,
+    timeout: 30000,
+    mode: 'cors',
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      'Accept': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json; charset=utf-8',
+      'Language': 'ru',
+    },
+    responseType: 'blob'
+  });
   
 
   httpReqAuth.interceptors.response.use(
@@ -132,6 +146,26 @@ export const  httpReq = axios.create({
   );
   
   httpReqUpdate.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    async function (error) {
+      return Promise.reject(error.response);
+    },
+  );
+
+  httpReqDownloadFiles.interceptors.request.use(
+    async (config) => {
+      const token = await localStorage.getItem('token');
+      config.headers['Authorization'] = 'Bearer ' + token;
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    },
+  );
+  
+  httpReqDownloadFiles.interceptors.response.use(
     (response) => {
       return response;
     },
