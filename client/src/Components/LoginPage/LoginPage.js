@@ -1,14 +1,14 @@
-import React, { useEffect, useState} from 'react'
+import React, { useState } from 'react'
 import classes from './LoginPage.module.css'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import { connect } from 'react-redux'
-import { editAuth } from '../../redux/actions'
+import { editAuth, editUser } from '../../redux/actions'
 import AuthProvider from '../Api/Auth/AuthProvider'
 import { useHistory } from 'react-router'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-function LoginPage({ editAuth }) {
+function LoginPage({ editAuth, editUser }) {
 
     const [value, setValue] = useState({
         name: '',
@@ -19,7 +19,7 @@ function LoginPage({ editAuth }) {
     const handleChange = (e) => {
         let val = e.target.value
         let nam = e.target.name
-        setValue({...value, [nam]: val})
+        setValue({ ...value, [nam]: val })
     }
 
     const history = useHistory()
@@ -28,9 +28,18 @@ function LoginPage({ editAuth }) {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-         AuthProvider.login(value)
-            .then(() => {
+        AuthProvider.login(value)
+            .then((res) => {
                 editAuth(true)
+                const currentUser = {
+                    name: res.userName,
+                    email: res.userEmail,
+                    id: res.userId,
+                    avatar: res.avatar,
+
+                }
+                editUser(currentUser)
+                console.log(res);
                 history.push('/')
             })
             .catch(err => {
@@ -51,9 +60,9 @@ function LoginPage({ editAuth }) {
                         id="name"
                         name="name"
                         label="Name"
-                        variant="standard" 
+                        variant="standard"
                         onChange={handleChange}
-                        />
+                    />
                 </div>
                 <div className={classes.inputBox}>
                     <TextField
@@ -62,9 +71,9 @@ function LoginPage({ editAuth }) {
                         type="email"
                         name="email"
                         label="Email"
-                        variant="standard" 
+                        variant="standard"
                         onChange={handleChange}
-                        />
+                    />
                 </div>
                 <div className={classes.inputBox}>
                     <TextField
@@ -72,9 +81,9 @@ function LoginPage({ editAuth }) {
                         id="password"
                         name="password"
                         label="Password"
-                        variant="standard" 
+                        variant="standard"
                         onChange={handleChange}
-                        />
+                    />
                 </div>
                 <div className={classes.btnBox}>
                     <Button
@@ -90,7 +99,9 @@ function LoginPage({ editAuth }) {
 }
 
 const mapDispatchToProps = {
-    editAuth: editAuth
+    editAuth: editAuth,
+    editUser: editUser
 }
+
 
 export default connect(null, mapDispatchToProps)(LoginPage)

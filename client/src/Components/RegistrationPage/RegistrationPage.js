@@ -33,12 +33,6 @@ function RegistrationPage() {
         formData.append('name', value.name)
         formData.append('email', value.email)
         formData.append('password', value.password)
-        const params = {
-            name: value.name,
-            email: value.email,
-            password: value.password,
-            ...formData
-        }
         e.preventDefault()
        
         httpRegisterPost(formData)

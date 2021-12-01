@@ -5,3 +5,26 @@
     list-style: none;
     text-decoration: none;
 }
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 95%;
+    margin: 20px auto;
+}
+
+.row {
+    display: flex;
+}
+
+.jcsb {
+    justify-content: space-between;
+}
+
+.aic {
+    align-items: center;
+}

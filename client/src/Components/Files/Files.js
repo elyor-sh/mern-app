@@ -1,12 +1,10 @@
 import React from 'react'
 import { httpFilesDelete, httpFilesGet } from '../Api/utils/utils'
-import AppBar from '../AppBar/AppBar'
 import AppTable from '../Organizms/AppTable/AppTable'
 
 function Files() {
     return (
         <>
-            <AppBar />
             <AppTable
                     basePath = '/files'
                     addBtnText = 'Add File'
