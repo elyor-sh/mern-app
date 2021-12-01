@@ -15,7 +15,7 @@ export const httpFilesPost = (data) => httpReqUpload('/api/files/create', {data:
 export const httpFilesPut = (data) => httpReqUpdate('/api/files', {data: data})
 export const httpFilesGetById = (id) => httpReq.get(`api/files/${id}`)
 export const httpFilesDelete = (id) => httpReq.delete(`/api/files/${id}`)
-export const httpFilesDownload = (params) => httpReqDownloadFiles.get(`/api/files/download`, params)
+export const httpFilesDownload = (params) => httpReqDownloadFiles.get(`/api/files/download?id=${params}`)
 
 
 export const httpGetUser = () => httpReq.get('/api/user')

@@ -11,6 +11,7 @@ import TableHead from '@mui/material/TableHead';
 import Paper from '@mui/material/Paper';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 
@@ -62,6 +63,37 @@ function AppTable({
         )
     }
 
+    const downloadRow = (id, name, type) => {
+        if(targetList.download){
+            targetList.download(id)
+            .then(res => {
+                downloadFiles(res, name, type)
+            }).catch(err => {
+                AuthProvider.checkError(err)
+            })
+        }
+    }
+
+    function downloadFiles(response, name, type) {
+        const url = window.URL
+          .createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `${name}.${type}`);
+        document.body.appendChild(link);
+
+        link.click();
+        document.body.removeChild(link);
+      }
+
+    const DownloadIcons = ({id, name, type}) => {
+        return (
+            <Button onClick={e => downloadRow(id, name, type)}>
+                <CloudDownloadIcon />
+            </Button>
+        )
+    }
+
     const drawCell = (row, cell) => {
         switch (cell.type) {
             case 'text':
@@ -82,6 +114,14 @@ function AppTable({
                     <>
                         <EditIcons id={row._id} />
                         <DeleteIcons id={row._id} />
+                    </>
+                )
+            case 'downloadActions':
+                return (
+                    <>
+                        <EditIcons id={row._id} />
+                        <DeleteIcons id={row._id} />
+                        <DownloadIcons id={row._id} name={row.name} type={row.type} />
                     </>
                 )
             default:
