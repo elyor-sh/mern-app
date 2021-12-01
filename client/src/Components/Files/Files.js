@@ -1,5 +1,5 @@
 import React from 'react'
-import { httpFilesDelete, httpFilesGet } from '../Api/utils/utils'
+import { httpFilesDelete, httpFilesDownload, httpFilesGet } from '../Api/utils/utils'
 import AppTable from '../Organizms/AppTable/AppTable'
 
 function Files() {
@@ -10,7 +10,8 @@ function Files() {
                     addBtnText = 'Add File'
                     targetList = {{
                         get: httpFilesGet,
-                        delete: httpFilesDelete
+                        delete: httpFilesDelete,
+                        download: httpFilesDownload
                     }}
                     tableHeadings = {[
                         {name: 'Name', color: '#000', align: 'left', width: '27%'},
@@ -22,7 +23,7 @@ function Files() {
                         {type: 'text', color: '#000', key: 'name', align: 'left'},
                         {type: 'date', color: '#000', key: 'createdAt', align: 'left'},
                         {type: 'date', color: '#000', key: 'updatedAt', align: 'left'},
-                        {type: 'actions', color: '#000', align: 'center'},
+                        {type: 'downloadActions', color: '#000', align: 'center'},
                     ]} 
                     filters = {[]}
                 />
