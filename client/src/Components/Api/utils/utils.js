@@ -1,4 +1,4 @@
-import { httpReq, httpReqAuth, httpReqUpdate, httpReqUpload } from "../axios/axios";
+import { httpReq, httpReqAuth, httpReqDownloadFiles, httpReqUpdate, httpReqUpload } from "../axios/axios";
 
 export const httpRegisterPost = (data) => httpReqUpload('/api/auth/register', {data: data})
 
@@ -15,6 +15,8 @@ export const httpFilesPost = (data) => httpReqUpload('/api/files/create', {data:
 export const httpFilesPut = (data) => httpReqUpdate('/api/files', {data: data})
 export const httpFilesGetById = (id) => httpReq.get(`api/files/${id}`)
 export const httpFilesDelete = (id) => httpReq.delete(`/api/files/${id}`)
+export const httpFilesDownload = (params) => httpReqDownloadFiles.get(`/api/files/download`, params)
+
 
 export const httpGetUser = () => httpReq.get('/api/user')
 export const httpPutUser = (params) => httpReq.put('/api/user', params)
