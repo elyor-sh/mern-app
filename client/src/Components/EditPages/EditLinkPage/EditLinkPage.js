@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import AuthProvider from '../../Api/Auth/AuthProvider'
 import { httpLinkPut, httpLinksGetById } from '../../Api/utils/utils'
-import AppBar from '../../AppBar/AppBar'
 import classes from './EditLinkPage.module.css'
 
 function EditLinkPage() {
@@ -49,11 +48,11 @@ function EditLinkPage() {
 
     useEffect(() => {
         getLinkById()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [history.location.pathname])
 
     return (
         <>
-            <AppBar />
             <div className={classes.editLinkPageContainer}>
                 <div className={classes.editLinkPageWrapper}>
                     <div className={classes.inputBox}>

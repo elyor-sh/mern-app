@@ -51,7 +51,7 @@ router.post(
 
             user.save()
 
-            return res.status(200).json({ message: 'succes', user: user })
+            return res.status(200).json({ message: 'success', user: {userId: user.id, userName: user.name, avatar: user.avatar, userEmail: user.email} })
 
         } catch (e) {
             console.log(e);
@@ -85,17 +85,27 @@ router.put(
                 return res.status(404).json({ message: 'User not found!' })
             }
 
-            const path = `${config.get('avatarPath')}/${user.avatar}`
+            const date = moment().format('DDMMYYYY-HHmmss_SSS')
+            const newFileName = date.toString()
+            const type = file.name.split('.').pop()
+    
+            const newPath = `${config.get('avatarPath')}/${newFileName}.${type}`
 
-            if (!fs.existsSync(path)) {
+            const oldPath = `${config.get('avatarPath')}/${user.avatar}`
+
+            if (!fs.existsSync(oldPath)) {
                 return res.status(404).json({ message: 'There is no such file on the disk!' })
             }
 
-            fs.unlinkSync(path);
+            fs.unlinkSync(oldPath);
 
-            file.mv(path)
+            file.mv(newPath)
 
-            return res.status(200).json({ message: 'succes', user: user })
+            user.avatar = `${newFileName}.${type}`
+
+            user.save()
+
+            return res.status(200).json({ message: 'success',  user: {userId: user.id, userName: user.name, avatar: user.avatar, userEmail: user.email} })
 
         } catch (e) {
             console.log(e);
@@ -103,6 +113,29 @@ router.put(
         }
     }
 )
+
+// забрать юзера
+router.get(
+    '/',
+    authMiddleware,
+    async (req, res) => {
+        try {
+
+            const user = await User.findById(req.user.userId)
+
+            if(!user){
+                return res.status(404).json({message: 'User not found!'})
+            }
+
+            return res.status(200).json({ message: 'success', user: {userId: user.id, userName: user.name, avatar: user.avatar, userEmail: user.email} })
+
+        } catch (e) {
+            console.log(e);
+            res.status(500).json(e)
+        }
+    }
+)
+
 
 // удаление аватара
 router.delete(
@@ -135,7 +168,7 @@ router.delete(
 
             user.save()
 
-            return res.status(200).json({ message: 'succes', user: user })
+            return res.status(200).json({ message: 'succes', user: {userId: user.id, userName: user.name, avatar: user.avatar, userEmail: user.email} })
 
         } catch (e) {
             console.log(e);
@@ -188,7 +221,7 @@ router.put(
             //отправка сообщений на почту
             mailer(newEmail, 'Сhange Datas', textForEmail)
 
-            return res.status(200).json({ message: 'succes', user: user })
+            return res.status(200).json({ message: 'succes', user: {userId: user.id, userName: user.name, avatar: user.avatar, userEmail: user.email} })
 
         } catch (e) {
             console.log(e);
@@ -251,7 +284,7 @@ router.put(
             //отправка сообщений на почту
             mailer(email, 'Сhange Password', textForEmail)
 
-            return res.status(200).json({ message: 'succes', user: user })
+            return res.status(200).json({ message: 'success', user: {userId: user.id, userName: user.name, avatar: user.avatar, userEmail: user.email} })
 
         } catch (e) {
             console.log(e);

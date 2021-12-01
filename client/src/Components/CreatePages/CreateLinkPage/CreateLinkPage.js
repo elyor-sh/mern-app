@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import { useHistory } from 'react-router'
 import AuthProvider from '../../Api/Auth/AuthProvider'
 import { httpLinkPost } from '../../Api/utils/utils'
-import AppBar from '../../AppBar/AppBar'
 import classes from './CreateLinkPage.module.css'
 
 function CreateLinkPage() {
@@ -32,7 +31,6 @@ function CreateLinkPage() {
 
     return (
         <>
-            <AppBar />
             <div className={classes.createLinkPageContainer}>
                 <div className={classes.createLinkPageWrapper}>
                     <div className={classes.inputBox}>

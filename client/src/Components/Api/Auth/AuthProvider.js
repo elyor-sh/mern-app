@@ -11,10 +11,12 @@ const AuthProvider =  {
                     const currentUser = {
                         userId: jsonData.userId,
                         userName: jsonData.userName,
-                        userAvatar: jsonData.avatar
+                        userAvatar: jsonData.avatar,
+                        userEmail: jsonData.userEmail,
                     }
                     localStorage.setItem('currentUser', JSON.stringify(currentUser))
                     localStorage.setItem('token', jsonData.token)
+                    return jsonData
                 })
                 .catch(err => {
                     throw new Error(err)

@@ -1,5 +1,4 @@
 import React from 'react'
-import AppBar from '../AppBar/AppBar'
 import AppTable from '../Organizms/AppTable/AppTable'
 import { httpLinkDelete, httpLinksGet } from '../Api/utils/utils'
 
@@ -8,7 +7,6 @@ function Links() {
 
     return (
         <>
-            <AppBar />
                 <AppTable
                     basePath = '/links'
                     addBtnText = 'Add Link'

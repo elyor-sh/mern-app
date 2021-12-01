@@ -6,13 +6,13 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableHead from '@mui/material/TableHead';
 import Paper from '@mui/material/Paper';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 
 function AppTable({
     addBtnText,
@@ -35,7 +35,7 @@ function AppTable({
             })
     }
 
-    const EditIcons = ({id}) => {
+    const EditIcons = ({ id }) => {
         return (
             <Button onClick={e => history.push(`${basePath}/${id}`)}>
                 <EditIcon />
@@ -44,7 +44,7 @@ function AppTable({
     }
 
     const deleteRow = (id) => {
-        if(targetList.delete){
+        if (targetList.delete) {
             targetList.delete(id)
                 .then(res => {
                     getItems()
@@ -54,7 +54,7 @@ function AppTable({
         }
     }
 
-    const DeleteIcons = ({id}) => {
+    const DeleteIcons = ({ id }) => {
         return (
             <Button onClick={e => deleteRow(id)}>
                 <DeleteIcon />
@@ -92,6 +92,7 @@ function AppTable({
 
     useEffect(() => {
         getItems()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
@@ -99,9 +100,13 @@ function AppTable({
             <div className={classes.btnWrapper}>
                 <Button
                     variant="contained"
-                    href={`${basePath}/create`}
                 >
-                    {addBtnText}
+                    <Link 
+                        to={`${basePath}/create`}
+                        className={classes.addBtnLink}
+                        >
+                            {addBtnText}
+                    </Link>
                 </Button>
             </div>
             <div className={classes.tablewrapper}>
@@ -132,7 +137,7 @@ function AppTable({
                                             {rowCells.map(cell => {
                                                 return (
                                                     <TableCell
-                                                        style={{ color: cell.color,  whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}
+                                                        style={{ color: cell.color, whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
                                                         align={cell.align}
                                                         key={row._id.toString() + Math.random() * 1000}
                                                     >

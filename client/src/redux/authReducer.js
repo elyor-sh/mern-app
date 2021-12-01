@@ -1,10 +1,14 @@
-import { AUTH_EDIT } from "./types";
+import { AUTH_EDIT, USER_EDIT } from "./types";
 
 const initialState = {
     isAuthitenticated: false,
     token: '',
-    name: '',
-    email: '',
+    user: {
+        name: '',
+        email: '',
+        avatar: '',
+        id: ''
+    },
 }
 
 export const authReducer = (state = initialState, action) => {
@@ -12,6 +16,9 @@ export const authReducer = (state = initialState, action) => {
         case AUTH_EDIT:
             
             return {...state, isAuthitenticated: action.payload};
+        case USER_EDIT:
+            
+            return {...state, user: action.payload};
     
         default:
             return state;

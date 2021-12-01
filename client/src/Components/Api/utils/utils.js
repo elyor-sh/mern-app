@@ -15,3 +15,9 @@ export const httpFilesPost = (data) => httpReqUpload('/api/files/create', {data:
 export const httpFilesPut = (data) => httpReqUpdate('/api/files', {data: data})
 export const httpFilesGetById = (id) => httpReq.get(`api/files/${id}`)
 export const httpFilesDelete = (id) => httpReq.delete(`/api/files/${id}`)
+
+export const httpGetUser = () => httpReq.get('/api/user')
+export const httpPutUser = (params) => httpReq.put('/api/user', params)
+export const httpPostUserAvatar = (data) => httpReqUpload('/api/user/avatar', {data: data})
+export const httpPutUserAvatar = (data) => httpReqUpdate('/api/user/avatar', {data: data})
+export const httpDeleteUserAvatar = (id) => httpReq.delete(`/api/user/avatar/${id}`)

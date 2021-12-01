@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router'
 import AuthProvider from '../../Api/Auth/AuthProvider'
 import { httpFilesGetById, httpFilesPost, httpFilesPut } from '../../Api/utils/utils'
-import AppBar from '../../AppBar/AppBar'
 import classes from './EditFilePage.module.css'
 
 function EditFilePage() {
@@ -54,11 +53,11 @@ function EditFilePage() {
         if(routeParams.id !== 'create'){
             getFile()
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
         <>
-            <AppBar />
             <div className={classes.editFilePageContainer}>
                 <div className={classes.editFilePageWrapper}>
                     <div className={classes.inputBox}>

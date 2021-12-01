@@ -1,24 +1,31 @@
 import React, { useEffect, useState } from 'react'
-import AppBar from '../AppBar/AppBar'
+import AuthProvider from '../Api/Auth/AuthProvider'
+import { httpGetUser } from '../Api/utils/utils'
 import classes from './Dashboard.module.css'
 
 function Dashboard() {
     const [user, setUser] = useState({})
 
+    const getUser = async () => {
+        await httpGetUser()
+            .then(res => {
+                setUser(res.data.user)
+            }).catch(err => {
+                AuthProvider.checkError(err)
+            })
+    }
+
     useEffect(() => {
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'))
-        console.log(currentUser);
-        setUser(currentUser)
+        getUser()
     }, [])
     return (
         <>
-            <AppBar />
             <div className={classes.container}>
                 {
                     user &&
                     <>
                         <div className={classes.title}>Your Name: </div>
-                        <input type={'text'} value={user.userName} disabled={true} className={classes.input}/>
+                        <input type={'text'} defaultValue={user.userName} disabled={true} className={classes.input} onChange={e => setUser({...user, userName: e.target.value})}/>
                     </>
                 }
             </div>

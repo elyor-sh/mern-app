@@ -1,19 +1,61 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { API_URI } from '../../config/config'
+import AvatarIcon from '../../assets/avatarIcon.jpg'
+import classes from './Avatar.module.css'
+import Logout from '../Logout/Logout'
+import { useHistory } from 'react-router'
+import { useSelector } from 'react-redux'
 
 function Avatar() {
 
-    const [avatarSrc, setAvatarSrc] = useState('')
-    useEffect(() => {
-        if(JSON.parse(localStorage.getItem('currentUser'))){
-            const avatarUri = JSON.parse(localStorage.getItem('currentUser')).userAvatar
-            setAvatarSrc(API_URI + avatarUri)
+    const history = useHistory()
+
+    const currentUser = useSelector((state) => state.auth.user)
+
+    const [showButton, setShowButton] = useState(false)
+
+    const handleClick = () => {
+        setShowButton(prev => {
+            return !prev
+        })
+    }
+
+    document.body.addEventListener('click', e => {
+        const element = e.target
+        if (!element.closest('#avatar') && !element.closest('#userMenu') && showButton) {
+            setShowButton(false)
         }
-    }, [])
+    })
+
+    const handleAccountClick = () => {
+        setShowButton(false)
+        history.push('/userProfile')
+    }
 
     return (
-        <div style={{width: '35px', height: '35px', borderRadius: '50%', overflow: 'hidden'}}>
-           <img src={avatarSrc} style={{width: '100%', height: '100%'}}/> 
+        <div className={classes.container}>
+            <div id="avatar" className={classes.imgContainer} onClick={handleClick}>
+                <img src={currentUser.avatar ? (API_URI + currentUser.avatar) : AvatarIcon} style={{ width: '100%', height: '100%' }} alt={"avatar"} />
+            </div>
+            <div id="userMenu" className={`${showButton ? classes.btnShow : ''} ${classes.btn}`}>
+                <div className={`${classes.back} row jcsb aic`}>
+                    <div className={`row aic`}>
+                        <div className={classes.imgContainer}>
+                            <img src={currentUser.avatar ? (API_URI + currentUser.avatar) : AvatarIcon} style={{ width: '100%', height: '100%' }} alt={"avatar"} />
+                        </div>
+                        <div className={`${classes.userDatas}`}>
+                            <div>{currentUser.name}</div>
+                            <div>{currentUser.email}</div>
+                        </div>
+                    </div>
+                    <div className={classes.btnLogout}>
+                        <Logout />
+                    </div>
+                </div>
+                <div className={classes.btnUserMenu} onClick={handleAccountClick}>
+                    My Account
+                </div>
+            </div>
         </div>
     )
 }
