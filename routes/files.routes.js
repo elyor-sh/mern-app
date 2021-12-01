@@ -84,6 +84,8 @@ router.put('/', authMiddleware, async (req, res) => {
             res.status(400).json({ message: 'Not file' })
         }
 
+        const type = file.name.split('.').pop()
+
         const fileBd = await Files.findById(id)
 
         if(!fileBd){
@@ -94,9 +96,11 @@ router.put('/', authMiddleware, async (req, res) => {
 
         fs.unlinkSync(path);
 
-        file.mv(path)
+        const newPath = `${config.get('staticPath')}/${fileBd.name}.${type}`
 
-        const newFile = {...file, name: fileBd.name, createdAt: fileBd.createdAt, updatedAt: Date.now()}
+        file.mv(newPath)
+
+        const newFile = {...file, name: fileBd.name, createdAt: fileBd.createdAt, updatedAt: Date.now(), type: type}
 
         const updatedFile = await Files.findByIdAndUpdate(id, newFile, { new: true })
 
