@@ -1,7 +1,7 @@
 const {Schema, model, Types} = require('mongoose')
 
 const schema = new Schema ({
-    link: {type: String, required: true, unique: true},
+    link: {type: String, required: true, sparse: false},
     date: {type: Date, default: Date.now},
     owner: {type: Types.ObjectId, ref: 'User'}
 })

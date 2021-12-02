@@ -7,21 +7,29 @@ router.post('/create', authMiddleware, async (req, res) => {
 
     try {
 
-        const { link, date } = req.body
+        const { link } = req.body
 
-        const isExistLink = await Link.findOne({ link })
+        if(!link){
+            return res.status(400).json({ message: 'Link cannot be empty!' })
+        }
+
+        const isExistLink = await Link.findOne({ link, owner: req.user.userId })
+        console.log(isExistLink);
 
         if (isExistLink) {
             return res.status(400).json({ message: 'Link already exists' })
         }
 
-        const newLink = new Link({ link: link, date: date, owner: req.user.userId })
+        const newLink = new Link({ link: link, date: Date.now(), owner: req.user.userId })
+
+        console.log('newlink', newLink);
 
         await newLink.save()
 
         res.status(200).json({ message: 'Link created' })
 
     } catch (e) {
+        console.log(e);
         res.status(500).json(e)
     }
 
