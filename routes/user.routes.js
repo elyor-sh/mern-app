@@ -7,7 +7,6 @@ const fs = require('fs')
 const User = require('../models/User')
 const authMiddleware = require('../middlewaree/authMiddleware')
 const mailer = require('../nodemailer')
-
 const router = Router()
 
 // загружение аватара
@@ -93,11 +92,9 @@ router.put(
 
             const oldPath = `${config.get('avatarPath')}/${user.avatar}`
 
-            if (!fs.existsSync(oldPath)) {
-                return res.status(404).json({ message: 'There is no such file on the disk!' })
+            if (fs.existsSync(oldPath)) {
+                fs.unlinkSync(oldPath);
             }
-
-            fs.unlinkSync(oldPath);
 
             file.mv(newPath)
 
@@ -158,11 +155,9 @@ router.delete(
 
             const path = `${config.get('avatarPath')}/${user.avatar}`
 
-            if (!fs.existsSync(path)) {
-                return res.status(404).json({ message: 'There is no such file on the disk!' })
+            if (fs.existsSync(path)) {
+                fs.unlinkSync(path);
             }
-
-            fs.unlinkSync(path);
 
             user.avatar = null
 
@@ -219,7 +214,7 @@ router.put(
             const textForEmail = `Your email has been successfully updated. If it wasn't you, then please reset your email password !!!`
 
             //отправка сообщений на почту
-            mailer(newEmail, 'Сhange Datas', textForEmail)
+           await mailer(newEmail, 'Сhange Datas', textForEmail)
 
             return res.status(200).json({ message: 'succes', user: {userId: user.id, userName: user.name, avatar: user.avatar, userEmail: user.email} })
 
