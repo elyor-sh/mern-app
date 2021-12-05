@@ -30,3 +30,10 @@
 .input, .btn {
     width: 100%;
 }
+
+@media(max-width: 400px){
+    .registerPageWrapper {
+        max-width: 300px;
+        width: 100%;
+    }
+}

@@ -49,3 +49,22 @@
     padding: 15px 10px;
     cursor: pointer;
 }
+
+@media(max-width: 576px){
+  .btn {
+    width: 100%;
+  }
+  .btnShow.btn {
+    top: 292px;
+    width: 100%;
+  }
+
+  .back {
+    padding: 30px;
+  }
+
+  .btnUserMenu {
+    padding: 15px 30px;
+  }
+  
+}
