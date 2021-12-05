@@ -42,3 +42,10 @@
     padding-left: 5px;
     text-decoration: underline;
 }
+
+@media(max-width: 420px){
+    .loginPageWrapper {
+        max-width: 300px;
+        width: 100%;
+    }
+}

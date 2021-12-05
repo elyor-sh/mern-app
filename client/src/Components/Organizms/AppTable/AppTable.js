@@ -2,18 +2,18 @@ import React, { useEffect, useState } from 'react'
 import Button from '@mui/material/Button'
 import classes from './AppTable.module.css'
 import AuthProvider from '../../Api/Auth/AuthProvider'
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableRow from '@mui/material/TableRow';
-import TableHead from '@mui/material/TableHead';
-import Paper from '@mui/material/Paper';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
-import { useHistory } from 'react-router';
-import { Link } from 'react-router-dom';
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TableRow from '@mui/material/TableRow'
+import TableHead from '@mui/material/TableHead'
+import Paper from '@mui/material/Paper'
+import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload'
+import { useHistory } from 'react-router'
+import { Link } from 'react-router-dom'
 
 function AppTable({
     addBtnText,
@@ -76,14 +76,14 @@ function AppTable({
 
     function downloadFiles(response, name, type) {
         const url = window.URL
-          .createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', `${name}.${type}`);
-        document.body.appendChild(link);
+          .createObjectURL(new Blob([response.data]))
+        const link = document.createElement('a')
+        link.href = url
+        link.setAttribute('download', `${name}.${type}`)
+        document.body.appendChild(link)
 
-        link.click();
-        document.body.removeChild(link);
+        link.click()
+        document.body.removeChild(link)
       }
 
     const DownloadIcons = ({id, name, type}) => {
@@ -100,15 +100,15 @@ function AppTable({
                 let cellText = row[cell.key]
                 return cellText
             case 'date':
-                let timeStamp = new Date(row[cell.key]);
-                const addZero = (datePart) => datePart.toString().padStart(2, '0');
-                let dateValue = `${addZero(timeStamp.getDate())}.${addZero(timeStamp.getMonth() + 1)}.${timeStamp.getFullYear()}`;
-                let timeValue = `${addZero(timeStamp.getHours())}:${addZero(timeStamp.getMinutes())}`;
+                let timeStamp = new Date(row[cell.key])
+                const addZero = (datePart) => datePart.toString().padStart(2, '0')
+                let dateValue = `${addZero(timeStamp.getDate())}.${addZero(timeStamp.getMonth() + 1)}.${timeStamp.getFullYear()}`
+                let timeValue = `${addZero(timeStamp.getHours())}:${addZero(timeStamp.getMinutes())}`
 
-                return dateValue + ' ' + timeValue;
+                return dateValue + ' ' + timeValue
             case 'link':
                 let cellLink = row[cell.key]
-                return <a href={cellLink}>{cellLink}</a>
+                return <a href={cellLink} target="_blank" rel="noreferrer">{cellLink}</a>
             case 'actions':
                 return (
                     <>

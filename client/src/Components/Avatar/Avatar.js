@@ -5,10 +5,13 @@ import classes from './Avatar.module.css'
 import Logout from '../Logout/Logout'
 import { useHistory } from 'react-router'
 import { useSelector } from 'react-redux'
+import { useMediaQuery } from '@mui/material'
 
 function Avatar() {
 
     const history = useHistory()
+
+    const isSmall = useMediaQuery('(max-width:576px)');
 
     const currentUser = useSelector((state) => state.auth.user)
 
