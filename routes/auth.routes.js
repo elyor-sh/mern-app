@@ -2,9 +2,11 @@ const {Router}  = require('express')
 const bcrypt  = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const config = require('config')
+const { v4: uuidv4 } = require('uuid');
+const moment = require('moment')
 const {check, validationResult} = require('express-validator')
 const User = require('../models/User')
-const moment = require('moment')
+const Candidate = require('../models/Candidate')
 const mailer = require('../nodemailer')
 
 const router = Router()
@@ -32,6 +34,12 @@ router.post(
                 return res.status(400).json({message: 'Url is not specified'})
             }
 
+            const uniqueKey = uuidv4()
+
+            const candidate = new Candidate({uniqueKey: uniqueKey, email: email })
+
+            await candidate.save()
+
             // сообщение на почту
             const textForEmail = `Registration message, please confirm!`
 
@@ -42,7 +50,7 @@ router.post(
                     <h1 style="text-align: center; padding: 10px 0px;">
                         <a 
                             style="background: #3c2eff; color: #fff; padding: 5px 20px 6px; border-radius: 5px;" 
-                            href=${url}
+                            href=${url}?key=${uniqueKey}&email=${email}
                         >
                             Confirm
                         </a>
@@ -98,12 +106,22 @@ router.post(
             }
         }
 
-        const {name, email, password} = req.body
+        const {name, email, password, uniqueKey} = req.body
+
+        if(!uniqueKey){
+            return res.status(400).json({message: 'Not unique key'})
+        }
+
+        const candidate = await Candidate.findOne({uniqueKey: uniqueKey, email: email})
+
+        if(!candidate){
+            return  res.status(400).json({message: 'Candidate not found'})
+        }
         
 
-        const candidate = await User.findOne({email})
+        const newCandidate = await User.findOne({email})
 
-        if(candidate){
+        if(newCandidate){
           return  res.status(400).json({message: 'Such user already exists'})
         }
 
