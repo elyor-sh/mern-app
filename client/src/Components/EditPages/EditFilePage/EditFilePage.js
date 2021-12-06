@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router'
 import AuthProvider from '../../Api/Auth/AuthProvider'
 import { httpFilesGetById, httpFilesPost, httpFilesPut } from '../../Api/utils/utils'
+import { useToaster } from '../../hooks/useToaster'
 import classes from './EditFilePage.module.css'
 
 function EditFilePage() {
@@ -35,8 +36,13 @@ function EditFilePage() {
 
         if(routeParams.id === 'create'){
             await httpFilesPost(formData)
-                .then(res => { history.goBack() })
-                .catch(err => { AuthProvider.checkError(err) })
+                .then(res => { 
+                    useToaster(res.data.message, 'success')
+                    history.goBack() 
+                })
+                .catch(err => { 
+                    AuthProvider.checkError(err) 
+                })
             
             return
         }
@@ -44,8 +50,13 @@ function EditFilePage() {
         formData.append('id', idFile)
 
         await httpFilesPut(formData)
-            .then(() => { history.goBack() })
-            .catch(err => { AuthProvider.checkError(err) })
+            .then((res) => { 
+                useToaster(res.data.message, 'success')
+                history.goBack() 
+            })
+            .catch(err => { 
+                AuthProvider.checkError(err) 
+            })
     }
 
     useEffect(() => {

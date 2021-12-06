@@ -37,7 +37,7 @@ router.post('/create', authMiddleware, async (req, res) => {
 
     } catch (e) {
         console.log('error: ', e)
-        res.status(500).json(e)
+        res.status(500).json({message: 'Server error, try again', error: e})
     }
 
 })
@@ -49,7 +49,7 @@ router.get('/', authMiddleware, async (req, res) => {
         res.status(200).json({ items: files, message: 'Success' })
 
     } catch (e) {
-        // res.status(500).json(e)
+        res.status(500).json({message: 'Server error, try again', error: e})
         console.log('err');
     }
 })
@@ -110,7 +110,7 @@ router.put('/', authMiddleware, async (req, res) => {
 
     } catch (e) {
 
-        res.status(500).json(e)
+        res.status(500).json({message: 'Server error, try again', error: e})
 
     }
 
@@ -144,7 +144,7 @@ router.delete('/:id', authMiddleware, async (req, res) => {
 
     }catch(e){
         console.log(e);
-        res.status(500).json(e) 
+        res.status(500).json({message: 'Server error, try again', error: e}) 
     }
 
 })
