@@ -14,6 +14,8 @@ function CreateLinkPage() {
         setLink(e.target.value)
     }
 
+    const setToaster = useToaster
+
     const handleClick = (e) => {
         e.preventDefault()
         const now = new Date()
@@ -23,7 +25,7 @@ function CreateLinkPage() {
         }
         httpLinkPost(params)
             .then((res) => {
-                useToaster(res.data.message, 'success')
+                setToaster(res.data.message, 'success')
                 history.go(-1)
             })
             .catch(e => {
