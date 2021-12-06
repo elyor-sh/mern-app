@@ -12,6 +12,8 @@ router.post('/create', authMiddleware, async (req, res) => {
 
         const file = req.files.file
 
+        const {description} = req.body
+
         const date = moment().format('DDMMYYYY-HHmmss_SSS')     
 
         const type = file.name.split('.').pop()
@@ -29,6 +31,7 @@ router.post('/create', authMiddleware, async (req, res) => {
         const dbFile = new Files({
             name: newFileName,
             type: type,
+            description: description,
             owner: req.user.userId
         })
 
@@ -74,7 +77,7 @@ router.get('/:id', authMiddleware, async (req, res) => {
 router.put('/', authMiddleware, async (req, res) => {
     try {
         const file = req.files.file
-        const {id} = req.body
+        const {id, description} = req.body
         console.log('id::', id)
         if (!id) {
             res.status(400).json({ message: 'Id is not specified!' })
@@ -102,7 +105,7 @@ router.put('/', authMiddleware, async (req, res) => {
 
         file.mv(newPath)
 
-        const newFile = {...file, name: fileBd.name, createdAt: fileBd.createdAt, updatedAt: Date.now(), type: type}
+        const newFile = {...file, name: fileBd.name, createdAt: fileBd.createdAt, updatedAt: Date.now(), type: type, description: description}
 
         const updatedFile = await Files.findByIdAndUpdate(id, newFile, { new: true })
 

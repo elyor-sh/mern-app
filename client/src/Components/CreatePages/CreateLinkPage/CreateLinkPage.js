@@ -9,6 +9,7 @@ import classes from './CreateLinkPage.module.css'
 function CreateLinkPage() {
     const [link, setLink] = useState('')
     const history = useHistory()
+    const [description, setDescription] = useState('')
 
     const handleChange = (e) => {
         setLink(e.target.value)
@@ -21,7 +22,8 @@ function CreateLinkPage() {
         const now = new Date()
         const params = {
             link: link,
-            date: now
+            date: now,
+            description: description
         }
         httpLinkPost(params)
             .then((res) => {
@@ -46,6 +48,17 @@ function CreateLinkPage() {
                             variant="standard"
                             value={link}
                             onChange={handleChange}
+                        />
+                    </div>
+                    <div className={classes.inputBox}>
+                        <TextField
+                            className={classes.input}
+                            id="linkDescription"
+                            name="linkDescription"
+                            label="Description"
+                            variant="standard"
+                            value={description}
+                            onChange={e => setDescription(e.target.value)}
                         />
                     </div>
                     <div className={classes.btnBox}>
