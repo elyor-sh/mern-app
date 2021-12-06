@@ -7,7 +7,7 @@ router.post('/create', authMiddleware, async (req, res) => {
 
     try {
 
-        const { link } = req.body
+        const { link, description} = req.body
 
         if(!link){
             return res.status(400).json({ message: 'Link cannot be empty!' })
@@ -20,7 +20,7 @@ router.post('/create', authMiddleware, async (req, res) => {
             return res.status(400).json({ message: 'Link already exists' })
         }
 
-        const newLink = new Link({ link: link, date: Date.now(), owner: req.user.userId })
+        const newLink = new Link({ link: link, date: Date.now(), owner: req.user.userId, description: description })
 
         console.log('newlink', newLink);
 

@@ -9,6 +9,7 @@ import classes from './EditLinkPage.module.css'
 function EditLinkPage() {
     const [link, setLink] = useState('')
     const [id, setId] = useState('')
+    const [description, setDescription] = useState('')
 
     const history = useHistory()
 
@@ -23,7 +24,8 @@ function EditLinkPage() {
         const params = {
             id: id,
             link: link,
-            date: now
+            date: now,
+            description: description
         }
         await httpLinkPut(params)
             .then(res => {
@@ -43,6 +45,7 @@ function EditLinkPage() {
             .then(res => {
                 setLink(res.data.items.link)
                 setId(res.data.items._id)
+                setDescription(res.data.items.description)
             })
             .catch(err => {
                 AuthProvider.checkError(err)
@@ -67,6 +70,17 @@ function EditLinkPage() {
                             variant="standard"
                             value={link}
                             onChange={handleChange}
+                        />
+                    </div>
+                    <div className={classes.inputBox}>
+                        <TextField
+                            className={classes.input}
+                            id="editDescription"
+                            name="editDescription"
+                            label="Link"
+                            variant="standard"
+                            value={description}
+                            onChange={e => setDescription(e.target.value)}
                         />
                     </div>
                     <div className={classes.btnBox}>

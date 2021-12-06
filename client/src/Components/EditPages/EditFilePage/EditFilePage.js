@@ -9,6 +9,7 @@ import classes from './EditFilePage.module.css'
 function EditFilePage() {
     const [idFile, setIdFile] = useState('')
     const [file, setFile] = useState('')
+    const [description, setDescription] = useState('')
 
     const history = useHistory()
 
@@ -18,6 +19,7 @@ function EditFilePage() {
         await httpFilesGetById(routeParams.id)
             .then(res => {
                 setIdFile(res.data.items._id)
+                setDescription(res.data.items.description)
             })
             .catch(err => {
                 AuthProvider.checkError(err)
@@ -35,6 +37,7 @@ function EditFilePage() {
 
         let formData = new FormData()
         formData.append('file', file)
+        formData.append('description', description)
 
         if(routeParams.id === 'create'){
             await httpFilesPost(formData)
@@ -79,6 +82,16 @@ function EditFilePage() {
                             variant="standard"
                             type="file"
                             onChange={e => setFile(e.target.files[0])}
+                        />
+                    </div>
+                    <div className={classes.inputBox}>
+                        <TextField
+                            className={classes.input}
+                            label="Description"
+                            variant="standard"
+                            type="text"
+                            value={description}
+                            onChange={e => setDescription(e.target.value)}
                         />
                     </div>
                     <div className={classes.btnBox}>
