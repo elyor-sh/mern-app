@@ -90,11 +90,11 @@ router.post(
             })
         }
 
-        const file = req.files.avatar
+        const file = req.files ? req.files.avatar : null
 
         const date = moment().format('DDMMYYYY-HHmmss_SSS')
         const newFileName = date.toString()
-        const type = file.name.split('.').pop()
+        const type = file ? file.name.split('.').pop() : 'jpg'
 
         console.log('files:::', file, 'type:::', type);
 
@@ -135,10 +135,13 @@ router.post(
 
         await user.save()
 
+        await Candidate.findByIdAndDelete(candidate._id)
+
         res.status(201).json({message: 'User created'})
 
         
     } catch (error) {
+        console.log(error)
         res.status(500).json({message: 'Server error, try again'})
     }
 })

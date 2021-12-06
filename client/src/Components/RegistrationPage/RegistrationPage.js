@@ -3,7 +3,7 @@ import classes from './RegistrationPage.module.css'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import {httpRegisterPost } from '../Api/utils/utils'
-import {useHistory} from 'react-router'
+import {useHistory, useParams} from 'react-router'
 import AuthProvider from '../Api/Auth/AuthProvider'
 
 function RegistrationPage() {
@@ -28,12 +28,25 @@ function RegistrationPage() {
     const history = useHistory()
 
     const handleSubmit = (e) => {
-        const formData = new FormData();
-        formData.append('avatar', avatar)
-        formData.append('name', value.name)
-        formData.append('email', value.email)
-        formData.append('password', value.password)
+
         e.preventDefault()
+
+        // забираем параметры из строки запроса
+        const params = (new URL(document.location)).searchParams;
+        console.log(params.get('key'), params.get('email'));
+        if(!params || !params.get('key') || !params.get('email')){
+            alert('Confirm your email')
+            return
+        }
+
+        const formData = new FormData();
+        if(avatar){
+            formData.append('avatar', avatar)
+        }
+        formData.append('name', value.name)
+        formData.append('email', params.get('email'))
+        formData.append('uniqueKey', params.get('key'))
+        formData.append('password', value.password)
        
         httpRegisterPost(formData)
             .then(res => {
@@ -53,15 +66,6 @@ function RegistrationPage() {
                             className={classes.input}
                             id="name" name="name"
                             label="Name"
-                            variant="standard"
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div className={classes.inputBox}>
-                        <TextField
-                            className={classes.input}
-                            id="email" type="email"
-                            name="email" label="Email"
                             variant="standard"
                             onChange={handleChange}
                         />
