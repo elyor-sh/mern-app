@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer')
 const config = require('config')
 
-async function mailer(to, subject, text) {
+async function mailer(to, subject, text, html="") {
 
     const transporter = nodemailer.createTransport(
         {
@@ -26,7 +26,8 @@ async function mailer(to, subject, text) {
     const mailOptions = {
         to: to,
         subject: subject,
-        text: text
+        text: text,
+        html: html
     }
 
     await transporter.verify(function (error, success) {

@@ -5,8 +5,62 @@ const config = require('config')
 const {check, validationResult} = require('express-validator')
 const User = require('../models/User')
 const moment = require('moment')
+const mailer = require('../nodemailer')
 
 const router = Router()
+
+router.post(
+    '/checkRegister',
+    [
+        check('email', 'Incorrect email').isEmail(),
+    ],
+    async (req, res) => {
+        try{
+
+            const errors = validationResult(req)
+
+            if(!errors.isEmpty()){
+                return res.status(400).json({
+                    errors: errors.array(),
+                    message: 'Incorrect email'
+                })
+            }
+
+            const {email, url} = req.body
+
+            if(!url){
+                return res.status(400).json({message: 'Url is not specified'})
+            }
+
+            // сообщение на почту
+            const textForEmail = `Registration message, please confirm!`
+
+            const html = `
+                <div>
+                    <h2 style="text-align: center; padding: 0px 0px 10px;">Please, confirm your email</h2>
+                    <div>
+                    <h1 style="text-align: center; padding: 10px 0px;">
+                        <a 
+                            style="background: #3c2eff; color: #fff; padding: 5px 20px 6px; border-radius: 5px;" 
+                            href=${url}
+                        >
+                            Confirm
+                        </a>
+                    </h1>
+                    </div>
+                </div>
+            `
+
+            //отправка сообщений на почту
+           await mailer(email, 'Confirmation message', textForEmail, html)
+
+           return res.status(200).json({message: 'Confirmation message is send to your email, please check your email!'})
+
+        }catch(err){
+            console.log(err)
+            res.status(500).json({message: 'Server error, try again', error: err}) 
+        }
+    })
 
 router.post(
     '/register',
