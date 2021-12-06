@@ -3,7 +3,7 @@ import classes from './RegistrationPage.module.css'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import {httpRegisterPost } from '../Api/utils/utils'
-import {useHistory, useParams} from 'react-router'
+import {useHistory} from 'react-router'
 import AuthProvider from '../Api/Auth/AuthProvider'
 
 function RegistrationPage() {

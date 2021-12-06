@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { useToaster } from '../../hooks/useToaster';
 
 export const  httpReq = axios.create({
     baseURL: process.env.REACT_APP_DEV_API_URL,
@@ -75,11 +76,13 @@ export const  httpReq = axios.create({
 
   httpReqAuth.interceptors.response.use(
     (response) => {
+      
       return response;
     },
     (error) => {
       // localStorage.removeItem('token');
       console.log(error);
+      useToaster(error.response.data.message)
       return Promise.reject(error);
     },
   );
@@ -90,6 +93,7 @@ export const  httpReq = axios.create({
   },
   (error) => {
     // localStorage.removeItem('token');
+    useToaster(error.response.data.message)
     return Promise.reject(error);
   },
 );
@@ -101,6 +105,8 @@ export const  httpReq = axios.create({
       return config;
     },
     (error) => {
+
+      useToaster(error.response.data.message)
       return Promise.reject(error);
     },
   );
@@ -108,9 +114,12 @@ export const  httpReq = axios.create({
 
   httpReq.interceptors.response.use(
     (response) => {
+      
       return response;
     },
     async function (error) {
+
+      useToaster(error.response.data.message)
       return Promise.reject(error.response);
     },
   );
@@ -122,14 +131,19 @@ export const  httpReq = axios.create({
       return config;
     },
     (error) => {
+
+      useToaster(error.response.data.message)
       return Promise.reject(error);
     },
   );
   httpReqUpload.interceptors.response.use(
     (response) => {
+      
       return response;
     },
     async function (error) {
+
+      useToaster(error.response.data.message)
       return Promise.reject(error.response);
     },
   );
@@ -141,15 +155,20 @@ export const  httpReq = axios.create({
       return config;
     },
     (error) => {
+
+      useToaster(error.response.data.message)
       return Promise.reject(error);
     },
   );
   
   httpReqUpdate.interceptors.response.use(
     (response) => {
+      
       return response;
     },
     async function (error) {
+
+      useToaster(error.response.data.message)
       return Promise.reject(error.response);
     },
   );
@@ -161,6 +180,8 @@ export const  httpReq = axios.create({
       return config;
     },
     (error) => {
+
+      useToaster(error.response.statusText)
       return Promise.reject(error);
     },
   );
@@ -170,6 +191,8 @@ export const  httpReq = axios.create({
       return response;
     },
     async function (error) {
+
+      useToaster(error.response.statusText)
       return Promise.reject(error.response);
     },
   );

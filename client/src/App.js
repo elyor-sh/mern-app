@@ -3,6 +3,7 @@ import useRoutes from './Components/Routes/useRoutes';
 import { connect } from 'react-redux'
 import { useEffect } from 'react'
 import { editAuth, editUser } from './redux/actions';
+import Toast from './Components/Toast/Toast';
 
 function App({ isAuthitenticated, editAuth, editUser }) {
 
@@ -26,15 +27,16 @@ function App({ isAuthitenticated, editAuth, editUser }) {
       editUser(currentUser)
     }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const routes = useRoutes(isAuthitenticated)
   return (
     <>
-      <Router>
-        {routes}
-      </Router>
+      <Toast/>
+        <Router>
+          {routes}
+        </Router>
     </>
   );
 }

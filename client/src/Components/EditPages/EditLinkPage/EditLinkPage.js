@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import AuthProvider from '../../Api/Auth/AuthProvider'
 import { httpLinkPut, httpLinksGetById } from '../../Api/utils/utils'
+import { useToaster } from '../../hooks/useToaster'
 import classes from './EditLinkPage.module.css'
 
 function EditLinkPage() {
@@ -24,6 +25,7 @@ function EditLinkPage() {
         }
         await httpLinkPut(params)
             .then(res => {
+                useToaster(res.data.message, 'success')
                 history.goBack()
             }).catch(err => {
                 AuthProvider.checkError(err)

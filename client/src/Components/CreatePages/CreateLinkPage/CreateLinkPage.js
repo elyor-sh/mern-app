@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useHistory } from 'react-router'
 import AuthProvider from '../../Api/Auth/AuthProvider'
 import { httpLinkPost } from '../../Api/utils/utils'
+import { useToaster } from '../../hooks/useToaster'
 import classes from './CreateLinkPage.module.css'
 
 function CreateLinkPage() {
@@ -21,7 +22,8 @@ function CreateLinkPage() {
             date: now
         }
         httpLinkPost(params)
-            .then(() => {
+            .then((res) => {
+                useToaster(res.data.message, 'success')
                 history.go(-1)
             })
             .catch(e => {
