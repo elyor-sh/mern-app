@@ -12,10 +12,12 @@ import Paper from '@mui/material/Paper'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload'
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
 import { useMediaQuery } from '@mui/material'
 import { useToaster } from '../../hooks/useToaster'
+import AlertDialogSlide from '../../Dialog/Dialog'
 
 function AppTable({
     addBtnText,
@@ -28,6 +30,8 @@ function AppTable({
     const setToaster = useToaster
 
     const [items, setItems] = useState([])
+    const [openDialog, setOpenDialog] = useState(false)
+    const [dialogText, setDialogText] = useState('')
     const history = useHistory()
     const isSmall = useMediaQuery('(max-width:992px)');
 
@@ -100,6 +104,20 @@ function AppTable({
         )
     }
 
+    const handleSlideClick = (description) => {
+        setDialogText(description)
+        setOpenDialog(true)
+    }
+
+
+    const DescriptionIcon = ({ description }) => {
+        return (
+            <Button className={classes.buttonTable} onClick={e => handleSlideClick(description)}>
+                <VisibilityIcon />
+            </Button>
+        )
+    }
+
     const drawCell = (row, cell) => {
         switch (cell.type) {
             case 'text':
@@ -118,6 +136,7 @@ function AppTable({
             case 'actions':
                 return (
                     <>
+                        <DescriptionIcon description={row.description} />
                         <EditIcons id={row._id} />
                         <DeleteIcons id={row._id} />
                     </>
@@ -125,9 +144,16 @@ function AppTable({
             case 'downloadActions':
                 return (
                     <>
+                        <DescriptionIcon description={row.description} />
                         <EditIcons id={row._id} />
                         <DeleteIcons id={row._id} />
                         <DownloadIcons id={row._id} name={row.name} type={row.type} />
+                    </>
+                )
+            case 'description':
+                return (
+                    <>
+                        <DescriptionIcon description={row.description} />
                     </>
                 )
             default:
@@ -157,7 +183,7 @@ function AppTable({
                                                 </div>
                                                 <div
                                                     className={classes.row}
-                                                    >
+                                                >
                                                     {drawCell(row, rowCells[index])}
                                                 </div>
                                             </div>
@@ -191,50 +217,53 @@ function AppTable({
             </div>
             <div className={classes.tablewrapper}>
                 {items.length < 1 ? <div>No data</div> :
-                !isSmall ?
-                    <TableContainer component={Paper}>
-                        <Table aria-label="">
-                            <TableHead>
-                                <TableRow>
-                                    {tableHeadings.map(headCell => {
+                    !isSmall ?
+                        <TableContainer component={Paper}>
+                            <Table aria-label="">
+                                <TableHead>
+                                    <TableRow>
+                                        {tableHeadings.map(headCell => {
+                                            return (
+                                                <TableCell
+                                                    align={headCell.align}
+                                                    style={{ color: headCell.color, width: headCell.width }}
+                                                    key={headCell.name + Math.random() * 100}
+                                                >
+                                                    {headCell.name}
+                                                </TableCell>
+                                            )
+                                        })}
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {items.map(row => {
                                         return (
-                                            <TableCell
-                                                align={headCell.align}
-                                                style={{ color: headCell.color, width: headCell.width }}
-                                                key={headCell.name + Math.random() * 100}
+                                            <TableRow
+                                                key={row._id}
                                             >
-                                                {headCell.name}
-                                            </TableCell>
+                                                {rowCells.map(cell => {
+                                                    return (
+                                                        <TableCell
+                                                            style={{ color: cell.color, whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
+                                                            align={cell.align}
+                                                            key={row._id.toString() + Math.random() * 1000}
+                                                        >
+                                                            {drawCell(row, cell)}
+                                                        </TableCell>
+                                                    )
+                                                })}
+                                            </TableRow>
                                         )
                                     })}
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {items.map(row => {
-                                    return (
-                                        <TableRow
-                                            key={row._id}
-                                        >
-                                            {rowCells.map(cell => {
-                                                return (
-                                                    <TableCell
-                                                        style={{ color: cell.color, whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
-                                                        align={cell.align}
-                                                        key={row._id.toString() + Math.random() * 1000}
-                                                    >
-                                                        {drawCell(row, cell)}
-                                                    </TableCell>
-                                                )
-                                            })}
-                                        </TableRow>
-                                    )
-                                })}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    : <SmallLayout />
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        : <SmallLayout />
                 }
             </div>
+
+            <AlertDialogSlide openDialog={openDialog} setOpenDialog={e => setOpenDialog(e)} dialogText={dialogText} />
+
         </div>
     )
 }
