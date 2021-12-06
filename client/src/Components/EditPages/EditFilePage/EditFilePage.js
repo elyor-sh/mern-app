@@ -24,6 +24,8 @@ function EditFilePage() {
             })
     }
 
+    const setToaster = useToaster
+
     const handleSave = async () => {
 
         if (!file) {
@@ -37,7 +39,7 @@ function EditFilePage() {
         if(routeParams.id === 'create'){
             await httpFilesPost(formData)
                 .then(res => { 
-                    useToaster(res.data.message, 'success')
+                    setToaster(res.data.message, 'success')
                     history.goBack() 
                 })
                 .catch(err => { 
@@ -51,7 +53,7 @@ function EditFilePage() {
 
         await httpFilesPut(formData)
             .then((res) => { 
-                useToaster(res.data.message, 'success')
+                setToaster(res.data.message, 'success')
                 history.goBack() 
             })
             .catch(err => { 

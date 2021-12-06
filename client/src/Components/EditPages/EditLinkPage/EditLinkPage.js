@@ -16,6 +16,8 @@ function EditLinkPage() {
         setLink(e.target.value)
     }
 
+    const setToaster = useToaster
+
     const handleClick = async () => {
         let now = new Date()
         const params = {
@@ -25,7 +27,7 @@ function EditLinkPage() {
         }
         await httpLinkPut(params)
             .then(res => {
-                useToaster(res.data.message, 'success')
+                setToaster(res.data.message, 'success')
                 history.goBack()
             }).catch(err => {
                 AuthProvider.checkError(err)
