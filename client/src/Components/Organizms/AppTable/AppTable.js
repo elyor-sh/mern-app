@@ -15,6 +15,7 @@ import CloudDownloadIcon from '@mui/icons-material/CloudDownload'
 import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
 import { useMediaQuery } from '@mui/material'
+import { useToaster } from '../../hooks/useToaster'
 
 function AppTable({
     addBtnText,
@@ -23,6 +24,8 @@ function AppTable({
     tableHeadings,
     rowCells
 }) {
+
+    const setToaster = useToaster
 
     const [items, setItems] = useState([])
     const history = useHistory()
@@ -50,6 +53,7 @@ function AppTable({
         if (targetList.delete) {
             targetList.delete(id)
                 .then(res => {
+                    setToaster(res.data.message, 'success')
                     getItems()
                 }).catch(err => {
                     AuthProvider.checkError(err)
