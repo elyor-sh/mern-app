@@ -3,10 +3,12 @@ import { Button, TextField } from '@mui/material';
 import classes from '../RegistrationPage/RegistrationPage.module.css'
 import { httpCheckRegisterPost } from '../Api/utils/utils';
 import AuthProvider from '../Api/Auth/AuthProvider';
+import { useHistory } from 'react-router';
 
 function CheckRegister() {
 
     const [email, setEmail] = useState('')
+    const history = useHistory()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -24,6 +26,7 @@ function CheckRegister() {
         await httpCheckRegisterPost(params)
             .then(res => {
                 console.log(res);
+                history.push('/checkRegister')
             })
             .catch(err => {
                 AuthProvider.checkError(err)
