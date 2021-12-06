@@ -33,3 +33,13 @@
     font-weight: 600;
     color: #009fe9;
 }
+
+@media(max-width: 520px){
+    .btnBox {
+        flex-direction: column;
+    }
+
+    .btn {
+        margin: 15px 0 0 !important;
+    }
+}
