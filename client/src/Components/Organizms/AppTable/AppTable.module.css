@@ -11,3 +11,72 @@
 .addBtnLink {
     color: #fff;
 }
+
+.smallLayoutList {
+    color: #000;
+    list-style: none;
+    margin: 20px 0px;
+    background-color: #ececec;
+    border-radius: 10px;
+  }
+  
+  .smallLayoutListItem {
+    padding: 10px;
+  }
+  
+  .rowSmallLayout {
+    display: flex;
+    align-items: center;
+  }
+  
+  .headingNameTable {
+    margin-right: 10px;
+    padding: 7px 0px;
+    width: 200px;
+    font-weight: 600;
+  }
+  
+  .smallLayoutContainer{
+    max-width: 95%;
+    width: 100%;
+    margin: 20px auto 0px;
+  }
+  
+  .smallLayoutContainer ul:last-child {
+    margin-bottom: 0;
+  }
+
+  @media(max-width: 992px){
+      .buttonTable {
+        min-width: 0 !important;
+      }
+      .links {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          max-width: 150px;
+      }
+  }
+  @media(max-width: 480px){
+    .headingNameTable {
+        width: 150px;
+    }
+
+    .buttonTable {
+       padding: 3px 4px !important;
+    }
+  }
+  @media(max-width: 400px){
+    .row {
+        font-size: 13px;
+    }
+
+    .headingNameTable {
+        width: 120px;
+        font-size: 14px;
+    }
+    .links {
+        max-width: 120px;
+    }
+  }
+  

@@ -14,6 +14,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload'
 import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
+import { useMediaQuery } from '@mui/material'
 
 function AppTable({
     addBtnText,
@@ -25,6 +26,7 @@ function AppTable({
 
     const [items, setItems] = useState([])
     const history = useHistory()
+    const isSmall = useMediaQuery('(max-width:992px)');
 
     const getItems = () => {
         targetList.get()
@@ -38,7 +40,7 @@ function AppTable({
 
     const EditIcons = ({ id }) => {
         return (
-            <Button onClick={e => history.push(`${basePath}/${id}`)}>
+            <Button className={classes.buttonTable} onClick={e => history.push(`${basePath}/${id}`)}>
                 <EditIcon />
             </Button>
         )
@@ -57,26 +59,26 @@ function AppTable({
 
     const DeleteIcons = ({ id }) => {
         return (
-            <Button onClick={e => deleteRow(id)}>
+            <Button className={classes.buttonTable} onClick={e => deleteRow(id)}>
                 <DeleteIcon />
             </Button>
         )
     }
 
     const downloadRow = (id, name, type) => {
-        if(targetList.download){
+        if (targetList.download) {
             targetList.download(id)
-            .then(res => {
-                downloadFiles(res, name, type)
-            }).catch(err => {
-                AuthProvider.checkError(err)
-            })
+                .then(res => {
+                    downloadFiles(res, name, type)
+                }).catch(err => {
+                    AuthProvider.checkError(err)
+                })
         }
     }
 
     function downloadFiles(response, name, type) {
         const url = window.URL
-          .createObjectURL(new Blob([response.data]))
+            .createObjectURL(new Blob([response.data]))
         const link = document.createElement('a')
         link.href = url
         link.setAttribute('download', `${name}.${type}`)
@@ -84,11 +86,11 @@ function AppTable({
 
         link.click()
         document.body.removeChild(link)
-      }
+    }
 
-    const DownloadIcons = ({id, name, type}) => {
+    const DownloadIcons = ({ id, name, type }) => {
         return (
-            <Button onClick={e => downloadRow(id, name, type)}>
+            <Button className={classes.buttonTable} onClick={e => downloadRow(id, name, type)}>
                 <CloudDownloadIcon />
             </Button>
         )
@@ -108,7 +110,7 @@ function AppTable({
                 return dateValue + ' ' + timeValue
             case 'link':
                 let cellLink = row[cell.key]
-                return <a href={cellLink} target="_blank" rel="noreferrer">{cellLink}</a>
+                return <div className={classes.links}><a href={cellLink} target="_blank" rel="noreferrer">{cellLink}</a></div>
             case 'actions':
                 return (
                     <>
@@ -131,8 +133,43 @@ function AppTable({
 
     useEffect(() => {
         getItems()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    const SmallLayout = () => {
+
+        return (
+            <>
+                {
+                    items.map(row => {
+                        return (
+                            <ul className={classes.smallLayoutList} key={row._id + Math.random() * 100}>
+                                <li className={classes.smallLayoutListItem}>
+                                    {tableHeadings.map((heading, index) => {
+                                        return (
+                                            <div className={classes.rowSmallLayout} key={row._id + Math.random() * 100 + `${Date.now()}`}>
+                                                <div className={classes.headingNameTable}>
+                                                    {heading.name}:
+                                                </div>
+                                                <div
+                                                    className={classes.row}
+                                                    >
+                                                    {drawCell(row, rowCells[index])}
+                                                </div>
+                                            </div>
+                                        )
+                                    })}
+
+                                </li>
+                            </ul>
+                        )
+
+                    })
+                }
+            </>
+        )
+
+    }
 
     return (
         <div className={classes.pageContainer}>
@@ -140,16 +177,17 @@ function AppTable({
                 <Button
                     variant="contained"
                 >
-                    <Link 
+                    <Link
                         to={`${basePath}/create`}
                         className={classes.addBtnLink}
-                        >
-                            {addBtnText}
+                    >
+                        {addBtnText}
                     </Link>
                 </Button>
             </div>
             <div className={classes.tablewrapper}>
                 {items.length < 1 ? <div>No data</div> :
+                !isSmall ?
                     <TableContainer component={Paper}>
                         <Table aria-label="">
                             <TableHead>
@@ -190,6 +228,7 @@ function AppTable({
                             </TableBody>
                         </Table>
                     </TableContainer>
+                    : <SmallLayout />
                 }
             </div>
         </div>
