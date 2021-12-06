@@ -7,10 +7,13 @@ import { httpDeleteUserAvatar, httpPostUserAvatar, httpPutUser, httpPutUserAvata
 import AuthProvider from '../Api/Auth/AuthProvider'
 import setLocalStorage from '../hooks/setLocalStorage'
 import { editUser } from '../../redux/actions'
+import { useToaster } from '../hooks/useToaster'
 
 function UserMenu({currentUser, editUser}) {
 
     const history = useHistory()
+
+    const setToaster = useToaster
 
     const [typeRequest, setTypeRequest] = useState('put')
 
@@ -48,6 +51,7 @@ function UserMenu({currentUser, editUser}) {
                 .then(res => {
                     setLocalStorage(res.data.user)
                     userEditRedux(res.data.user)
+                    setToaster(res.data.message, 'success')
                 }).catch(err => {
                     console.log(err);
                     AuthProvider.checkError(err)
@@ -61,6 +65,7 @@ function UserMenu({currentUser, editUser}) {
             .then(res => {
                 setLocalStorage(res.data.user)
                 userEditRedux(res.data.user)
+                setToaster(res.data.message, 'success')
             }).catch(err => {
                 console.log(err);
                 AuthProvider.checkError(err)
@@ -73,6 +78,7 @@ function UserMenu({currentUser, editUser}) {
                 if (avatar) {
                     editAvatar()
                 } else {
+                    setToaster(res.data.message, 'success')
                     setLocalStorage(res.data.user)
                     userEditRedux(res.data.user)
                 }
@@ -87,6 +93,7 @@ function UserMenu({currentUser, editUser}) {
                 setLocalStorage(res.data.user)
                 userEditRedux(res.data.user)
                 setTypeRequest('post')
+                setToaster(res.data.message, 'success')
             }).catch(err => {
                 AuthProvider.checkError(err)
             })
