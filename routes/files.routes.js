@@ -94,7 +94,9 @@ router.put('/', authMiddleware, async (req, res) => {
 
         const path = `${config.get('staticPath')}/${fileBd.name}.${fileBd.type}`
 
-        fs.unlinkSync(path);
+        if(fs.existsSync(path)){
+            fs.unlinkSync(path);
+        }
 
         const newPath = `${config.get('staticPath')}/${fileBd.name}.${type}`
 
@@ -126,13 +128,19 @@ router.delete('/:id', authMiddleware, async (req, res) => {
 
         const file = await Files.findById(id)
 
+        if(!file){
+            res.status(404).json({message: 'File is not found'})
+        }
+
         const path = `${config.get('staticPath')}/${file.name}.${file.type}`
 
-        fs.unlinkSync(path);
+        if(fs.existsSync(path)){
+            fs.unlinkSync(path);
+        }
     
         const deletedFile = await Files.findByIdAndDelete(id)
     
-        return res.status(200).json({message: 'succes', deletedFile: deletedFile})
+        return res.status(200).json({message: 'Success', deletedFile: deletedFile})
 
     }catch(e){
         console.log(e);
