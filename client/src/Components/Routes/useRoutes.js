@@ -12,6 +12,7 @@ import LoginPage from '../LoginPage/LoginPage'
 import RegistrationPage from '../RegistrationPage/RegistrationPage'
 import UserMenu from '../UserMenu/UserMenu'
 import AppBar from '../AppBar/AppBar'
+import CheckRegister from '../CheckRegister/CheckRegister'
 
 function useRoutes(isAuthitenticated) {
 
@@ -19,7 +20,8 @@ function useRoutes(isAuthitenticated) {
         return (
             <Switch>
                 <Route path="/login" component={LoginPage} />
-                <Route path="/register" component={RegistrationPage} />
+                <Route path="/checkRegister" component={RegistrationPage} />
+                <Route path="/register" component={CheckRegister} />
                 <Route component={Error} />
             </Switch>
         )
@@ -31,7 +33,8 @@ function useRoutes(isAuthitenticated) {
             <div className="container">
                 <Switch>
                     <Route path="/login" component={LoginPage} />
-                    <Route path="/register" component={RegistrationPage} />
+                    <Route path="/checkRegister" component={RegistrationPage} />
+                    <Route path="/register" component={CheckRegister} />
                     <Route exact path="/" component={Dashboard} />
                     <Route exact path="/links" component={Links} />
                     <Route exact path="/links/create" component={CreateLinkPage} />

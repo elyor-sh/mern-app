@@ -1,5 +1,7 @@
 import { httpReq, httpReqAuth, httpReqDownloadFiles, httpReqUpdate, httpReqUpload } from "../axios/axios";
 
+export const httpCheckRegisterPost = (params) => httpReqAuth.post('/api/auth/checkRegister', params)
+
 export const httpRegisterPost = (data) => httpReqUpload('/api/auth/register', {data: data})
 
 export const httpLoginPost = (params) => httpReqAuth.post('/api/auth/login', params)
