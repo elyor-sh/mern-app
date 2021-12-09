@@ -12,11 +12,8 @@
 # production
 /build
 
-# static
+#static
 /uploads
-/avatars
-
-/config
 
 # misc
 .DS_Store

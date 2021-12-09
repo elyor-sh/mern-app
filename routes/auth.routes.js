@@ -98,7 +98,7 @@ router.post(
 
         console.log('files:::', file, 'type:::', type);
 
-        const path = `${config.get('avatarPath')}/${newFileName}.${type}`
+        const path = `${req.filePath}/${newFileName}.${type}`
 
         if(file){
             if(!(file.mimetype === 'image/png' || file.mimetype === 'image/jpeg')){

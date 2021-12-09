@@ -13,6 +13,7 @@ function Avatar() {
     const currentUser = useSelector((state) => state.auth.user)
 
     const [showButton, setShowButton] = useState(false)
+    const [imgError, setImgError] = useState(false)
 
     const handleClick = () => {
         setShowButton(prev => {
@@ -35,13 +36,31 @@ function Avatar() {
     return (
         <div className={classes.container}>
             <div id="avatar" className={classes.imgContainer} onClick={handleClick}>
-                <img src={currentUser.avatar ? (API_URI + currentUser.avatar) : AvatarIcon} style={{ width: '100%', height: '100%' }} alt={"avatar"} />
+                {
+                    imgError ?
+                        <img src={AvatarIcon} style={{ width: '100%', height: '100%' }} alt={"avatar"} />
+                        :
+                        <img 
+                            src={currentUser.avatar ? (API_URI + currentUser.avatar) : AvatarIcon} 
+                            style={{ width: '100%', height: '100%' }} alt={"avatar"} 
+                            onError={() => setImgError(true)}
+                        />
+                }
             </div>
             <div id="userMenu" className={`${showButton ? classes.btnShow : ''} ${classes.btn}`}>
                 <div className={`${classes.back} row jcsb aic`}>
                     <div className={`row aic`}>
                         <div className={classes.imgContainer}>
-                            <img src={currentUser.avatar ? (API_URI + currentUser.avatar) : AvatarIcon} style={{ width: '100%', height: '100%' }} alt={"avatar"} />
+                            {
+                                imgError ?
+                                    <img src={AvatarIcon} style={{ width: '100%', height: '100%' }} alt={"avatar"} />
+                                    :
+                                    <img 
+                                        src={currentUser.avatar ? (API_URI + currentUser.avatar) : AvatarIcon} 
+                                        style={{ width: '100%', height: '100%' }} alt={"avatar"} 
+                                        onError={() => setImgError(true)}
+                                    />
+                            }
                         </div>
                         <div className={`${classes.userDatas}`}>
                             <div>{currentUser.name}</div>

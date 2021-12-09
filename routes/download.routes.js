@@ -17,7 +17,7 @@ router.get('/', authMiddleware, async (req, res) => {
             return res.status(404).json({message: 'File not found'})
         }
 
-        const path = `${config.get('staticPath')}/${file.name}.${file.type}`
+        const path = `${req.filePath}/${file.name}.${file.type}`
 
 
         if (!fs.existsSync(path)) {

@@ -38,7 +38,7 @@ router.post(
             const newFileName = date.toString()
             const type = file.name.split('.').pop()
     
-            const path = `${config.get('avatarPath')}/${newFileName}.${type}`
+            const path = `${req.filePath}/${newFileName}.${type}`
 
             if (fs.existsSync(path)) {
                 return res.status(404).json({ message: 'There is no such file on the disk!' })
@@ -88,9 +88,9 @@ router.put(
             const newFileName = date.toString()
             const type = file.name.split('.').pop()
     
-            const newPath = `${config.get('avatarPath')}/${newFileName}.${type}`
+            const newPath = `${req.filePath}/${newFileName}.${type}`
 
-            const oldPath = `${config.get('avatarPath')}/${user.avatar}`
+            const oldPath = `${req.filePath}/${user.avatar}`
 
             if (fs.existsSync(oldPath)) {
                 fs.unlinkSync(oldPath);
@@ -153,7 +153,7 @@ router.delete(
                 return res.status(404).json({ message: 'User not found!' })
             }
 
-            const path = `${config.get('avatarPath')}/${user.avatar}`
+            const path = `${req.filePath}/${user.avatar}`
 
             if (fs.existsSync(path)) {
                 fs.unlinkSync(path);
@@ -163,7 +163,7 @@ router.delete(
 
             user.save()
 
-            return res.status(200).json({ message: 'succes', user: {userId: user.id, userName: user.name, avatar: user.avatar, userEmail: user.email} })
+            return res.status(200).json({ message: 'success', user: {userId: user.id, userName: user.name, avatar: user.avatar, userEmail: user.email} })
 
         } catch (e) {
             console.log(e);
@@ -216,7 +216,7 @@ router.put(
             //отправка сообщений на почту
            await mailer(newEmail, 'Сhange Datas', textForEmail)
 
-            return res.status(200).json({ message: 'succes', user: {userId: user.id, userName: user.name, avatar: user.avatar, userEmail: user.email} })
+            return res.status(200).json({ message: 'success', user: {userId: user.id, userName: user.name, avatar: user.avatar, userEmail: user.email} })
 
         } catch (e) {
             console.log(e);
