@@ -20,7 +20,7 @@ router.post('/create', authMiddleware, async (req, res) => {
 
         const newFileName = date.toString()
 
-        const path = `${config.get('staticPath')}/${newFileName}.${type}`
+        const path = `${req.filePath}/${newFileName}.${type}`
 
         if (fs.existsSync(path)) {
             return res.status(400).json({ message: 'File already exist' });
@@ -95,13 +95,13 @@ router.put('/', authMiddleware, async (req, res) => {
             return  res.status(400).json({ message: "File doesn't exist!" })
         }
 
-        const path = `${config.get('staticPath')}/${fileBd.name}.${fileBd.type}`
+        const path = `${req.filePath}/${fileBd.name}.${fileBd.type}`
 
         if(fs.existsSync(path)){
             fs.unlinkSync(path);
         }
 
-        const newPath = `${config.get('staticPath')}/${fileBd.name}.${type}`
+        const newPath = `${req.filePath}/${fileBd.name}.${type}`
 
         file.mv(newPath)
 
@@ -135,7 +135,7 @@ router.delete('/:id', authMiddleware, async (req, res) => {
             res.status(404).json({message: 'File is not found'})
         }
 
-        const path = `${config.get('staticPath')}/${file.name}.${file.type}`
+        const path = `${req.filePath}/${file.name}.${file.type}`
 
         if(fs.existsSync(path)){
             fs.unlinkSync(path);

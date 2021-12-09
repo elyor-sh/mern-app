@@ -3,11 +3,14 @@ const  mongoose = require('mongoose')
 const  config =  require('config')
 const cors  = require('cors')
 const fileUpload = require('express-fileupload')
+const path = require('path')
+const filePathMiddleware = require('./middlewaree/filepath.middleware')
 
 const app = express()
 
 app.use(fileUpload({}))
 app.use(cors({origin: '*'}))
+app.use(filePathMiddleware(path.resolve(__dirname, 'uploads')))
 
 app.use(express.json({extended: true}))
 app.use(express.static('uploads'))
@@ -20,7 +23,7 @@ app.use('/api/files/download', require('./routes/download.routes'))
 app.use('/api/files', require('./routes/files.routes'))
 app.use('/api/user', require('./routes/user.routes'))
 
-const PORT = config.get('port') || 5000
+const PORT = process.env.PORT || config.get('port') || 5000
 
 async function start() {
 
