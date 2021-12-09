@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import About from '../About/About'
 import CreateLinkPage from '../CreatePages/CreateLinkPage/CreateLinkPage'
 import Dashboard from '../Dashboard/Dashboard'
@@ -19,6 +19,9 @@ function useRoutes(isAuthitenticated) {
     if (!isAuthitenticated) {
         return (
             <Switch>
+                <Route exact path="/" >
+                    <Redirect to="/login" />
+                </Route>
                 <Route path="/login" component={LoginPage} />
                 <Route path="/checkRegister" component={RegistrationPage} />
                 <Route path="/register" component={CheckRegister} />
@@ -32,9 +35,6 @@ function useRoutes(isAuthitenticated) {
             <AppBar />
             <div className="container">
                 <Switch>
-                    <Route path="/login" component={LoginPage} />
-                    <Route path="/checkRegister" component={RegistrationPage} />
-                    <Route path="/register" component={CheckRegister} />
                     <Route exact path="/" component={Dashboard} />
                     <Route exact path="/links" component={Links} />
                     <Route exact path="/links/create" component={CreateLinkPage} />
