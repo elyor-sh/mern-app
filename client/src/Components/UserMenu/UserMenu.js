@@ -8,6 +8,8 @@ import AuthProvider from '../Api/Auth/AuthProvider'
 import setLocalStorage from '../hooks/setLocalStorage'
 import { editUser } from '../../redux/actions'
 import { useToaster } from '../hooks/useToaster'
+import FileUploadPreview from '../FileUploadPreview/FileUploadPreview'
+import { API_URI } from '../../config/config'
 
 function UserMenu({currentUser, editUser}) {
 
@@ -99,6 +101,10 @@ function UserMenu({currentUser, editUser}) {
             })
     }
 
+    const handleDelete = () => {
+        deleteAvatar()
+    }
+
     useEffect(() => {
         currentUser.avatar ? setTypeRequest('put') : setTypeRequest('post')
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -107,6 +113,16 @@ function UserMenu({currentUser, editUser}) {
     return (
         <>
             <div className={classes.containerUserMenu}>
+                <div className={classes.title}>Edit avatar:</div>
+                <FileUploadPreview 
+                    src={currentUser.avatar ? API_URI + currentUser.avatar : null} 
+                    htmlFor={'avatar'} 
+                    alt={'avatar'} 
+                    file={avatar}
+                    setFile={file => setAvatar(file)}
+                    accept="image/*"
+                    deleteBtn={currentUser.avatar ? handleDelete : null}
+                />
                 <div className={classes.title}>Edit datas:</div>
                 <div className={classes.inputWrapper}>
                     <TextField
@@ -130,17 +146,6 @@ function UserMenu({currentUser, editUser}) {
                         onChange={handleChange}
                     />
                 </div>
-                <div className={classes.inputWrapper}>
-                    <TextField
-                        className={classes.input}
-                        id="avatar"
-                        name="avatar"
-                        label="Avatar"
-                        variant="standard"
-                        type="file"
-                        onChange={e => setAvatar(e.target.files[0])}
-                    />
-                </div>
                 <div className={classes.btnBox}>
                     <Button
                         className={classes.btn}
@@ -149,14 +154,6 @@ function UserMenu({currentUser, editUser}) {
                         onClick={e => history.goBack()}
                     >
                         Cancel
-                    </Button>
-                    <Button
-                        className={classes.btn}
-                        variant="contained"
-                        style={{ background: '#e94200' }}
-                        onClick={deleteAvatar}
-                    >
-                        Delete Avatar
                     </Button>
                     <Button
                         className={classes.btn}
