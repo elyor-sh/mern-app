@@ -1,4 +1,8 @@
+import axios from "axios";
 import { httpReq, httpReqAuth, httpReqDownloadFiles, httpReqUpdate, httpReqUpload } from "../axios/axios";
+
+
+export const httpGetClientAddress = () => axios.get('https://geolocation-db.com/json/')
 
 export const httpCheckRegisterPost = (params) => httpReqAuth.post('/api/auth/checkRegister', params)
 
