@@ -39,8 +39,6 @@ router.get('/', authMiddleware, async (req, res) => {
     try {
         const links = await Link.find({owner: req.user.userId})
 
-        console.log(req)
-
         res.status(200).json({ items: links, message: 'Success' })
 
     } catch (e) {

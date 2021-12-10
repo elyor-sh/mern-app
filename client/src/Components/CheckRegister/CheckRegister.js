@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, TextField } from '@mui/material';
 import classes from '../RegistrationPage/RegistrationPage.module.css'
-import { httpCheckRegisterPost } from '../Api/utils/utils';
+import { httpCheckRegisterPost, httpGetClientAddress } from '../Api/utils/utils';
 import AuthProvider from '../Api/Auth/AuthProvider';
 import { useHistory } from 'react-router';
 
 function CheckRegister() {
 
     const [email, setEmail] = useState('')
+    const [address, setAddress] = useState('[]')
     const history = useHistory()
 
     const handleSubmit = async (e) => {
@@ -20,12 +21,12 @@ function CheckRegister() {
 
         const params = {
             email: email,
-            url: `${window.location.origin}/checkRegister`
+            url: `${window.location.origin}/checkRegister`,
+            clientAddress: address
         }
 
         await httpCheckRegisterPost(params)
             .then(res => {
-                console.log(res);
                 history.push('/checkRegister')
             })
             .catch(err => {
@@ -33,6 +34,19 @@ function CheckRegister() {
             })
 
     }
+
+    const getClientAddress = async () => {
+        await httpGetClientAddress()
+          .then(res => {
+            setAddress(JSON.stringify(res.data))
+          }).catch(err => {
+            console.log(err)
+          })
+    }
+
+    useEffect(() => {
+        getClientAddress()
+    }, [])
 
     return (
         <div>

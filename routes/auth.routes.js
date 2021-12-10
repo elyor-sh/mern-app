@@ -28,7 +28,7 @@ router.post(
                 })
             }
 
-            const {email, url} = req.body
+            const {email, url, clientAddress} = req.body
 
             if(!url){
                 return res.status(400).json({message: 'Url is not specified'})
@@ -36,7 +36,7 @@ router.post(
 
             const uniqueKey = uuidv4()
 
-            const candidate = new Candidate({uniqueKey: uniqueKey, email: email })
+            const candidate = new Candidate({uniqueKey: uniqueKey, email: email, ip: req.ip, clientAddress: clientAddress })
 
             await candidate.save()
 
@@ -106,7 +106,7 @@ router.post(
             }
         }
 
-        const {name, email, password, uniqueKey} = req.body
+        const {name, email, password, uniqueKey, clientAddress} = req.body
 
         if(!uniqueKey){
             return res.status(400).json({message: 'Not unique key'})
@@ -131,7 +131,7 @@ router.post(
             file.mv(path)
         }
         
-        const user = new User({name: name, email: email, password: hashedPassword, avatar: file ? `${newFileName}.${type}` : null})
+        const user = new User({name: name, email: email, password: hashedPassword, avatar: file ? `${newFileName}.${type}` : null, ip: req.ip, clientAddress: clientAddress})
 
         await user.save()
 

@@ -1,8 +1,8 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import classes from './RegistrationPage.module.css'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import {httpRegisterPost } from '../Api/utils/utils'
+import {httpGetClientAddress, httpRegisterPost } from '../Api/utils/utils'
 import {useHistory} from 'react-router'
 import AuthProvider from '../Api/Auth/AuthProvider'
 
@@ -14,6 +14,7 @@ function RegistrationPage() {
     })
 
     const [avatar, setAvatar] = useState('')
+    const [address, setAddress] = useState('[]')
 
     const handleChange = (e) => {
         let val = e.target.value
@@ -33,7 +34,6 @@ function RegistrationPage() {
 
         // забираем параметры из строки запроса
         const params = (new URL(document.location)).searchParams;
-        console.log(params.get('key'), params.get('email'));
         if(!params || !params.get('key') || !params.get('email')){
             alert('Confirm your email')
             return
@@ -47,6 +47,7 @@ function RegistrationPage() {
         formData.append('email', params.get('email'))
         formData.append('uniqueKey', params.get('key'))
         formData.append('password', value.password)
+        formData.append('clientAddress', address)
        
         httpRegisterPost(formData)
             .then(res => {
@@ -56,6 +57,20 @@ function RegistrationPage() {
                 AuthProvider.checkError(err)
             })
     }
+
+    const getClientAddress = async () => {
+        await httpGetClientAddress()
+          .then(res => {
+            setAddress(JSON.stringify(res.data))
+          }).catch(err => {
+            console.log(err)
+          })
+    }
+
+    useEffect(() => {
+        getClientAddress()
+    }, [])
+
     return (
         <>
 
