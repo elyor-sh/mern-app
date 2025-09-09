@@ -1,9 +1,9 @@
 {
     "port": 5000,
     "jwtSecret": "links file elyor",
-    "mongoUri": "mongodb+srv://elyor:1234qwer@cluster0.4mat0.mongodb.net/myWebSite?retryWrites=true&w=majority",
+    "mongoUri": ".....",
     "staticPath": "C:\\Users\\User\\Desktop\\projects\\mern-app\\uploads",
     "avatarPath": "C:\\Users\\User\\Desktop\\projects\\mern-app\\avatars",
-    "userMail": "elyor.robot2005@mail.ru",
-    "passwordMail": "hv9dwXQeRZS38jGNzeEb"
+    "userMail": ".....",
+    "passwordMail": "...."
 }
